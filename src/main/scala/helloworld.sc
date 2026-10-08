@@ -42,6 +42,9 @@ list3.prependedAll(list)
 val str = "Hello "
 str.trim
 
+val name = "John"
+val strinter = s"Hallo $name"
+
 if (str.startsWith("H"))
   print("yep")
 
@@ -84,3 +87,7 @@ def func(a: Int, b: Int, op: (Int, Int) => Int): Int
 
 func(1, 3, (x, y) => x + y)
 func(1, 3, _ + _)
+
+val number = 5
+for(i <- 1 to 5)
+  println(i)
