@@ -29,4 +29,6 @@ case class Card(symbol: CardSymbol, rank: Rank):
 
 
 val card = Card(symbol = CardSymbol.SPADES, rank = Rank.ACE)
+card.color
+card.value
 println(card)
