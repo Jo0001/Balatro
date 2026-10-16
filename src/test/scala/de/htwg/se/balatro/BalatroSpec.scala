@@ -12,8 +12,29 @@ class BalatroSpec extends AnyWordSpec {
 
   "Balatro" should {
     "have a Black Spades Card" in {
-      val blackspade = Card(symbol = CardSymbol.SPADES, rank = Rank.ACE)
-      blackspade.color should be(CardColor.BLACK)
+      val card = Card(symbol = CardSymbol.SPADES, rank = Rank.ACE)
+      card.color should be(CardColor.BLACK)
+    }
+  }
+
+  "Balatro" should {
+    "have a Blue Clubs Card" in {
+      val card = Card(symbol = CardSymbol.CLUBS, rank = Rank.ACE)
+      card.color should be(CardColor.BLUE)
+    }
+  }
+
+  "Balatro" should {
+    "have a Red Hearts Card" in {
+      val card = Card(symbol = CardSymbol.HEARTS, rank = Rank.ACE)
+      card.color should be(CardColor.RED)
+    }
+  }
+
+  "Balatro" should {
+    "have a Yellow Diamonds Card" in {
+      val card = Card(symbol = CardSymbol.DIAMONDS, rank = Rank.ACE)
+      card.color should be(CardColor.YELLOW)
     }
   }
 
