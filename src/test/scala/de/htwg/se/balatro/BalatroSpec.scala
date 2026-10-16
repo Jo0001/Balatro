@@ -10,4 +10,10 @@ class BalatroSpec extends AnyWordSpec {
     }
   }
 
+  "Balatro" should {
+    "have a Black Spades Card" in {
+      val blackspade = Card(symbol = CardSymbol.SPADES, rank = Rank.ACE)
+      blackspade.color should be(CardColor.BLACK)
+    }
+  }
 }
