@@ -1,3 +1,5 @@
+package de.htwg.se.balatro
+
 @main def gameboard(): Unit =
   val current = 20
   val goal = 300
