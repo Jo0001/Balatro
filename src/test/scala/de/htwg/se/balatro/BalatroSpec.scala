@@ -128,4 +128,11 @@ class BalatroSpec extends AnyWordSpec {
       TwoCard.value should be(2)
     }
   }
+
+  "Balatro" should {
+    "have a title with length" in {
+      val title = createTitle("Small Blind", "<Score 20/300> || <Reward 3$> || <Ante 1/8> || <Round 1>", Console.RESET)
+      title should be()
+    }
+  }
 }
