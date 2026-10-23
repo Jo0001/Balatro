@@ -1,5 +1,6 @@
 package de.htwg.se.balatro
 
+// $COVERAGE-OFF$
 @main def gameboard(): Unit =
   val current = 20
   val goal = 300
@@ -27,6 +28,7 @@ package de.htwg.se.balatro
   println("Use 'play' to ... well play your selected cards")
   println("Use 'discard' to discard your selected cards")
   println("Use 'menu' to open the settings and exit the game")
+// $COVERAGE-ON$
 
 def createTitle(title: String, statusbar: String, color: String): String = {
   val spaces = statusbar.length / 2 - title.length / 2
