@@ -20,7 +20,15 @@ class TUISpec extends AnyWordSpec {
   "TUI" should {
     "have a menu" in {
       val tui = TUI()
-      tui.createMenu().length should be(351)
+      tui.createMenu() should be(
+        """Menu
+
+          |Use 'select <cardnumber>' or 'select <cardnumberA cardnumberB ...> to select cards
+          |Selecting the same card again will unselect it
+          |Card numbers are starting with 1 (to not confuse non techy users)
+          |Use 'play' to ... well play your selected cards
+          |Use 'discard' to discard your selected cards
+          |Use 'menu' to open the settings and exit the game""".stripMargin)
     }
   }
   "TUI" should {
