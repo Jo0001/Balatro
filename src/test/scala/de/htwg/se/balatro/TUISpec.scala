@@ -1,0 +1,89 @@
+package de.htwg.se.balatro
+
+import de.htwg.se.balatro.CardColor.*
+import de.htwg.se.balatro.CardSymbol.*
+import org.scalatest.wordspec.AnyWordSpec
+import org.scalatest.matchers.should.Matchers.*
+
+class TUISpec extends AnyWordSpec {
+  "TUI" should {
+    "have a title with correct indentation" in {
+      val title = "Small Blind"
+      val tui = TUI()
+      val fullTitle = tui.createTitle(title, "<Score 20/300> || <Reward 3$> || <Ante 1/8> || <Round 1>", Console.RESET)
+      val indentationSpaces = fullTitle.count(_ == ' ') - title.count(_ == ' ')
+      indentationSpaces should be(23)
+    }
+  }
+  "TUI" should {
+    "have a menu" in {
+      val tui = TUI()
+      tui.createMenu().length should be(351)
+    }
+  }
+  "TUI" should {
+    "have a diamond render" in {
+      val tui = TUI()
+      tui.symbol2String(DIAMONDS) should be("♦")
+    }
+  }
+  "TUI" should {
+    "have a spades render" in {
+      val tui = TUI()
+      tui.symbol2String(SPADES) should be("♠")
+    }
+  }
+  "TUI" should {
+    "have a hearts render" in {
+      val tui = TUI()
+      tui.symbol2String(HEARTS) should be("♥")
+    }
+  }
+  "TUI" should {
+    "have a clubs render" in {
+      val tui = TUI()
+      tui.symbol2String(CLUBS) should be("♣")
+    }
+  }
+
+  "TUI" should {
+    "have a mapping for the blue color render" in {
+      val tui = TUI()
+      tui.color2ConsoleColor(BLUE) should be(Console.BLUE)
+    }
+  }
+  "TUI" should {
+    "have a mapping for the yellow color render" in {
+      val tui = TUI()
+      tui.color2ConsoleColor(YELLOW) should be(Console.YELLOW)
+    }
+  }
+  "TUI" should {
+    "have a mapping for the red color render" in {
+      val tui = TUI()
+      tui.color2ConsoleColor(RED) should be(Console.RED)
+    }
+  }
+  "TUI" should {
+    "have a mapping for the black color render" in {
+      val tui = TUI()
+      tui.color2ConsoleColor(BLACK) should be(Console.BLACK)
+    }
+  }
+
+  "TUI" should {
+    "have a printable Yellow Diamonds Card" in {
+      val tui = TUI()
+      val card = Card(symbol = CardSymbol.DIAMONDS, rank = Rank.ACE)
+      tui.createCardRender(card) should be(s"${Console.YELLOW}Ace♦${Console.RESET}")
+    }
+  }
+
+  "TUI" should {
+    "have a printable deck render" in {
+      val tui = TUI()
+      val cards = List(Card(symbol = CardSymbol.DIAMONDS, rank = Rank.ACE), Card(symbol = CardSymbol.HEARTS, rank = Rank.KING))
+      tui.createHandView(cards) should be(s"${Console.YELLOW}Ace♦${Console.RESET} ${Console.RED}King♥${Console.RESET}")
+    }
+  }
+}
