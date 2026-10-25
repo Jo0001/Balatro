@@ -42,6 +42,7 @@ class ParserSpec extends AnyWordSpec {
       parser.parse("play 1 2") should be(UnknownCommand)
       parser.parse("discard 1 2") should be(UnknownCommand)
       parser.parse("select 99") should be(UnknownCommand)
+      parser.parseSelect("select") should be(UnknownCommand) //with normal parse never reachable
     }
   }
 }
