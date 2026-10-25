@@ -18,6 +18,13 @@ class TUISpec extends AnyWordSpec {
     }
   }
   "TUI" should {
+    "have a statusbar" in {
+      val tui = TUI()
+      val bar = tui.createStatusbar(20, 300, 3, 1, 1)
+      bar should be("<Score 20/300> || <Reward 3$> || <Ante 1/8> || <Round 1>")
+    }
+  }
+  "TUI" should {
     "have a menu" in {
       val tui = TUI()
       tui.createMenu() should be(
@@ -77,7 +84,7 @@ class TUISpec extends AnyWordSpec {
   "TUI" should {
     "have a mapping for the black color render" in {
       val tui = TUI()
-      tui.color2ConsoleColor(BLACK) should be(Console.BLACK)
+      tui.color2ConsoleColor(BLACK) should be(Console.BLACK + Console.WHITE_B)
     }
   }
 

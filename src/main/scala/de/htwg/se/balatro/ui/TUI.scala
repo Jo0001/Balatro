@@ -2,17 +2,21 @@ package de.htwg.se.balatro.ui
 
 import de.htwg.se.balatro.CardColor.*
 import de.htwg.se.balatro.CardSymbol.*
-import de.htwg.se.balatro.{Card, CardColor, CardSymbol}
+import de.htwg.se.balatro.{Card, CardColor, CardSymbol, Game}
 
 class TUI {
-  def createRender(): String = ??? //todo calls the other methods here and creates the full gameboard as string
+  def createRender(game: Game): String = { //todo add test
+    val statusbar = createStatusbar(game.currentRound.currentScore, game.currentRound.blind.goal, game.currentRound.blind.reward, game.currentRound.blind.ante, game.roundCounter)
+    s"${createTitle(game.currentRound.blind.blindType.toString, statusbar, Console.BLUE_B)}\n${statusbar}\n\n${createHandView(game.currentRound.handcards)}\n\n${createMenu()}"
+  }
 
   def createTitle(title: String, statusbar: String, color: String): String = {
     val spaces = statusbar.length / 2 - title.length / 2
     " " * spaces + Console.UNDERLINED + color + title + Console.RESET //use space x times and add title
   }
 
-  def createStatusbar(): String = ??? //todo
+  def createStatusbar(current: Int, goal: Int, reward: Int, ante: Int, round: Int): String =
+    s"<Score $current/$goal> || <Reward $reward$$> || <Ante $ante/8> || <Round $round>"
 
   def createMenu(): String =
     """Menu
@@ -50,6 +54,6 @@ class TUI {
       case BLUE => Console.BLUE
       case YELLOW => Console.YELLOW
       case RED => Console.RED
-      case BLACK => Console.BLACK
+      case BLACK => Console.BLACK + Console.WHITE_B
     }
 }
