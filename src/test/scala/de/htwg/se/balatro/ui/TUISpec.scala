@@ -1,9 +1,11 @@
-package de.htwg.se.balatro
+package de.htwg.se.balatro.ui
 
 import de.htwg.se.balatro.CardColor.*
 import de.htwg.se.balatro.CardSymbol.*
-import org.scalatest.wordspec.AnyWordSpec
+import de.htwg.se.balatro.ui.TUI
+import de.htwg.se.balatro.{Card, CardSymbol, Rank}
 import org.scalatest.matchers.should.Matchers.*
+import org.scalatest.wordspec.AnyWordSpec
 
 class TUISpec extends AnyWordSpec {
   "TUI" should {
@@ -84,6 +86,13 @@ class TUISpec extends AnyWordSpec {
       val tui = TUI()
       val cards = List(Card(symbol = CardSymbol.DIAMONDS, rank = Rank.ACE), Card(symbol = CardSymbol.HEARTS, rank = Rank.KING))
       tui.createHandView(cards) should be(s"${Console.YELLOW}Ace♦${Console.RESET} ${Console.RED}King♥${Console.RESET}")
+    }
+  }
+
+  "TUI" should {
+    "have a unknown command error" in {
+      val tui = TUI()
+      tui.createCommandErrorMessage("ply") should be(s"${Console.RED}Unknown or misspelled command 'ply' ${Console.RESET}")
     }
   }
 }

@@ -1,7 +1,8 @@
-package de.htwg.se.balatro
+package de.htwg.se.balatro.ui
 
 import de.htwg.se.balatro.CardColor.*
 import de.htwg.se.balatro.CardSymbol.*
+import de.htwg.se.balatro.{Card, CardColor, CardSymbol}
 
 class TUI {
   def createRender(): String = ??? //todo calls the other methods here and creates the full gameboard as string
@@ -28,6 +29,9 @@ class TUI {
 
   def createCardRender(card: Card): String =
     s"${color2ConsoleColor(card.color)}${card.rank.toString.toLowerCase.capitalize}${symbol2String(card.symbol)}${Console.RESET}"
+
+  def createCommandErrorMessage(misspelled: String): String =
+    s"${Console.RED}Unknown or misspelled command '$misspelled' ${Console.RESET}"
 
   def symbol2String(symbol: CardSymbol): String =
     symbol match {
