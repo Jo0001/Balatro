@@ -4,7 +4,7 @@ import de.htwg.se.balatro.BlindType.Small
 
 import scala.language.postfixOps
 
-case class Round(handcards: List[Card], discardCounter: Int = 0, selected: List[Int] = List()) {
+case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: Int = 0, selected: List[Int] = List()) {
   //todo Blind, Deck & Handcars, discard counter etc
 
   val blind = Blind(Small, 3, 100, 1)
@@ -27,9 +27,14 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, selected: List[
   def play(): Round = {
     if (selected.isEmpty) {
       //todo handle empty selection
+      this
+    } else if (handCounter >= 3) {
+      //todo
+      this
+    } else {
+      //todo handle points
+      this.copy(handCounter = handCounter + 1, selected = List(), handcards = changeHands(handcards, selected))
     }
-    //todo handle points
-    this
   }
 
   def discard(): Round = {
@@ -48,6 +53,6 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, selected: List[
     val cleanedHand = current.zipWithIndex.collect {
       case (name, index) if !indices.contains(index) => name
     }
-    cleanedHand++deck.draw(indices.length)
+    cleanedHand ++ deck.draw(indices.length)
 
 }

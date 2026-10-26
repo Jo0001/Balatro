@@ -9,6 +9,7 @@ case class Game(player: Player = Player(0),
   def handle(action: Action): Game = {
     action match {
       case Discard => copy(currentRound = currentRound.discard())
+      case Play => copy(currentRound = currentRound.play())
       case Select(indices) => copy(currentRound = currentRound.select(indices.map(e => e - 1))) //internal its 0 based but user uses 1 based indices
       case _ => println(s"Simulating Game Action $action"); this
     }
