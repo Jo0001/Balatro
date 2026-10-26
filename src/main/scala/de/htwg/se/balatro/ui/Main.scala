@@ -5,27 +5,28 @@ import de.htwg.se.balatro.Action.UnknownCommand
 import scala.io.StdIn.readLine
 import de.htwg.se.balatro.Game
 
+import scala.annotation.tailrec
+
 // $COVERAGE-OFF$
 @main def launchMain(): Unit = {
   val tui = TUI()
   val parser = Parser()
-  var game = Game() //todo change later to propper val
-
+  val game = Game()
   println(tui.createRender(game))
-  while (true) {
-    val line = readLine()
-    val action = parser.parse(line)
-    if (action == UnknownCommand) {
-      println(tui.createCommandErrorMessage(line))
-    } else {
-      game = game.handle(action)
-      //todo maybe better in TUI
-      //only works with ANSI capable console, not in IntelliJ
-      print("\u001b[2J\u001b[H")
-      Console.flush()
-      println(tui.createRender(game))
-    }
-  }
-
+  runloop(tui, parser, game)
 }
+
+@tailrec
+def runloop(tui: TUI, parser: Parser, game: Game): Game =
+
+  val line = readLine()
+  val action = parser.parse(line)
+  if (action == UnknownCommand) {
+    println(tui.createCommandErrorMessage(line))
+    runloop(tui, parser, game)
+  } else {
+    val newGame = game.handle(action)
+    println(tui.createRender(newGame))
+    runloop(tui, parser, newGame)
+  }
 // $COVERAGE-ON$
