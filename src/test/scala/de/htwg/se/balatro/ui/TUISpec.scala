@@ -92,7 +92,14 @@ class TUISpec extends AnyWordSpec {
     "have a printable Yellow Diamonds Card" in {
       val tui = TUI()
       val card = Card(symbol = CardSymbol.DIAMONDS, rank = Rank.ACE)
-      tui.createCardRender(card) should be(s"${Console.YELLOW}Ace♦${Console.RESET}")
+      tui.createCardRender(card, false) should be(s"${Console.YELLOW}Ace♦${Console.RESET}")
+    }
+  }
+  "TUI" should {
+    "have a printable selected Yellow Diamonds Card" in {
+      val tui = TUI()
+      val card = Card(symbol = CardSymbol.DIAMONDS, rank = Rank.ACE)
+      tui.createCardRender(card, true) should be(s"[${Console.YELLOW}Ace♦${Console.RESET}]")
     }
   }
 
@@ -100,7 +107,8 @@ class TUISpec extends AnyWordSpec {
     "have a printable deck render" in {
       val tui = TUI()
       val cards = List(Card(symbol = CardSymbol.DIAMONDS, rank = Rank.ACE), Card(symbol = CardSymbol.HEARTS, rank = Rank.KING))
-      tui.createHandView(cards) should be(s"${Console.YELLOW}Ace♦${Console.RESET} ${Console.RED}King♥${Console.RESET}")
+      val selectedIndices = List(0)
+      tui.createHandView(cards, selectedIndices) should be(s"[${Console.YELLOW}Ace♦${Console.RESET}] ${Console.RED}King♥${Console.RESET}")
     }
   }
 

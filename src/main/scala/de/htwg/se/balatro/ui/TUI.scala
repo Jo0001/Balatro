@@ -7,7 +7,7 @@ import de.htwg.se.balatro.{Card, CardColor, CardSymbol, Game}
 class TUI {
   def createRender(game: Game): String = { //todo add test
     val statusbar = createStatusbar(game.currentRound.currentScore, game.currentRound.blind.goal, game.currentRound.blind.reward, game.currentRound.blind.ante, game.roundCounter)
-    s"${createTitle(game.currentRound.blind.blindType.toString, statusbar, Console.BLUE_B)}\n${statusbar}\n\n${createHandView(game.currentRound.handcards)}\n\n${createMenu()}"
+    s"${createTitle(game.currentRound.blind.blindType.toString, statusbar, Console.BLUE_B)}\n${statusbar}\n\n${createHandView(game.currentRound.handcards, game.currentRound.selected)}\n\n${createMenu()}"
   }
 
   def createTitle(title: String, statusbar: String, color: String): String = {
@@ -28,11 +28,15 @@ class TUI {
       |Use 'discard' to discard your selected cards
       |Use 'menu' to open the settings and exit the game""".stripMargin
 
-  def createHandView(cards: List[Card]): String =
-    cards.map(card => createCardRender(card)).mkString(" ")
+  def createHandView(cards: List[Card], selectedIndices: List[Int]): String =
+    cards.zipWithIndex.map(card => createCardRender(card._1, selectedIndices.contains(card._2))).mkString(" ")
 
-  def createCardRender(card: Card): String =
-    s"${color2ConsoleColor(card.color)}${card.rank.toString.toLowerCase.capitalize}${symbol2String(card.symbol)}${Console.RESET}"
+  def createCardRender(card: Card, selected: Boolean): String =
+    if (selected) {
+      s"[${color2ConsoleColor(card.color)}${card.rank.toString.toLowerCase.capitalize}${symbol2String(card.symbol)}${Console.RESET}]"
+    } else {
+      s"${color2ConsoleColor(card.color)}${card.rank.toString.toLowerCase.capitalize}${symbol2String(card.symbol)}${Console.RESET}"
+    }
 
   def createCommandErrorMessage(misspelled: String): String =
     s"${Console.RED}Unknown or misspelled command '$misspelled' ${Console.RESET}"
