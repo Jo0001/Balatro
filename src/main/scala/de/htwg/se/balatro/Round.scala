@@ -28,7 +28,7 @@ case class Round(handcards: List[Card], discardCounter: Int = 0) {
     }
     //todo properly refresh from deck
     //todo clear selected
-    this.copy(discardCounter = discardCounter + 1, handcards = List(Card(symbol = CardSymbol.SPADES, rank = Rank.SIX), Card(symbol = CardSymbol.SPADES, rank = Rank.QUEEN)))
+    this.copy(discardCounter = discardCounter + 1, handcards = List(Card(symbol = CardSymbol.SPADES, rank = CardRank.SIX), Card(symbol = CardSymbol.SPADES, rank = CardRank.QUEEN)))
   }
 
 }
