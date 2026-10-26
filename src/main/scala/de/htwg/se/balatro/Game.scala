@@ -1,9 +1,11 @@
 package de.htwg.se.balatro
 
 import de.htwg.se.balatro.Action.*
+import de.htwg.se.balatro.BlindType.*
 
 case class Game(player: Player = Player(0),
-                currentRound: Round = Round(handcards = List(Card(symbol = CardSymbol.HEARTS, rank = CardRank.ACE), Card(symbol = CardSymbol.SPADES, rank = CardRank.TWO))),
+                currentRound: Round = Round(handcards = List(Card(symbol = CardSymbol.HEARTS, rank = CardRank.ACE), Card(symbol = CardSymbol.SPADES, rank = CardRank.TWO)),
+                  blind = Blind(Small, 3, 100, 1)),
                 roundCounter: Int = 1) {
 
   def handle(action: Action): Game = {

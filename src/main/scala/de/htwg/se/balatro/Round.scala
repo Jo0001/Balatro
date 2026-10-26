@@ -1,15 +1,7 @@
 package de.htwg.se.balatro
 
-import de.htwg.se.balatro.BlindType.Small
 
-import scala.language.postfixOps
-
-case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: Int = 0, selected: List[Int] = List()) {
-  //todo Blind, Deck & Handcars, discard counter etc
-
-  val blind = Blind(Small, 3, 100, 1)
-  val currentScore = 30
-  val deck = Deck()
+case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: Int = 0, selected: List[Int] = List(), deck: Deck = Deck(), score: Int = 0, blind: Blind) {
 
   def select(indices: List[Int]): Round = {
     val newSelected = indices.foldLeft(selected) { (selection, index) =>
@@ -33,7 +25,8 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: In
       this
     } else {
       //todo handle points
-      this.copy(handCounter = handCounter + 1, selected = List(), handcards = changeHands(handcards, selected))
+      val (newHand, newDeck) = changeHands(handcards, selected)
+      this.copy(handCounter = handCounter + 1, selected = List(), handcards = newHand, deck = newDeck)
     }
   }
 
@@ -45,14 +38,16 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: In
       //todo handle empty selection
       this
     } else {
-      this.copy(discardCounter = discardCounter + 1, selected = List(), handcards = changeHands(handcards, selected))
+      val (newHand, newDeck) = changeHands(handcards, selected)
+      this.copy(discardCounter = discardCounter + 1, selected = List(), handcards = newHand, deck = newDeck)
     }
   }
 
-  def changeHands(current: List[Card], indices: List[Int]): List[Card] =
+  def changeHands(current: List[Card], indices: List[Int]): (List[Card], Deck) =
     val cleanedHand = current.zipWithIndex.collect {
       case (name, index) if !indices.contains(index) => name
     }
-    cleanedHand ++ deck.draw(indices.length)
+    val (drawn, newDeck) = deck.draw(indices.length)
+    (cleanedHand ++ drawn, newDeck)
 
 }

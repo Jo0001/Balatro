@@ -6,7 +6,7 @@ import de.htwg.se.balatro.{Card, CardColor, CardSymbol, Game}
 
 class TUI {
   def createRender(game: Game): String = { //todo add test
-    val statusbar = createStatusbar(game.currentRound.currentScore, game.currentRound.blind.goal, game.currentRound.blind.reward, game.currentRound.blind.ante, game.roundCounter)
+    val statusbar = createStatusbar(game.currentRound.score, game.currentRound.blind.goal, game.currentRound.blind.reward, game.currentRound.blind.ante, game.roundCounter)
     s"${createTitle(game.currentRound.blind.blindType.toString, statusbar, Console.BLUE_B)}\n${statusbar}\n\n${createHandView(game.currentRound.handcards, game.currentRound.selected)}\n\n${createMenu()}"
   }
 

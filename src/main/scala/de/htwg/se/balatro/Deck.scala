@@ -7,9 +7,9 @@ case class Deck():
       v <- CardSymbol.values.toList
     } yield Card(v, r)
 
-  def draw(count: Int): List[Card] =
+  def draw(count: Int): (List[Card], Deck) =
     //todo replace with something random
-    deck.take(count)
+    (deck.take(count), this)
     
 
 
