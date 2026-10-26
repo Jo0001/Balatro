@@ -3,7 +3,7 @@ package de.htwg.se.balatro.ui
 import de.htwg.se.balatro.CardColor.*
 import de.htwg.se.balatro.CardSymbol.*
 import de.htwg.se.balatro.ui.TUI
-import de.htwg.se.balatro.{Card, CardSymbol, Rank}
+import de.htwg.se.balatro.{Card, CardSymbol, CardRank}
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -91,14 +91,14 @@ class TUISpec extends AnyWordSpec {
   "TUI" should {
     "have a printable Yellow Diamonds Card" in {
       val tui = TUI()
-      val card = Card(symbol = CardSymbol.DIAMONDS, rank = Rank.ACE)
+      val card = Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE)
       tui.createCardRender(card, false) should be(s"${Console.YELLOW}Ace♦${Console.RESET}")
     }
   }
   "TUI" should {
     "have a printable selected Yellow Diamonds Card" in {
       val tui = TUI()
-      val card = Card(symbol = CardSymbol.DIAMONDS, rank = Rank.ACE)
+      val card = Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE)
       tui.createCardRender(card, true) should be(s"[${Console.YELLOW}Ace♦${Console.RESET}]")
     }
   }
@@ -106,7 +106,7 @@ class TUISpec extends AnyWordSpec {
   "TUI" should {
     "have a printable deck render" in {
       val tui = TUI()
-      val cards = List(Card(symbol = CardSymbol.DIAMONDS, rank = Rank.ACE), Card(symbol = CardSymbol.HEARTS, rank = Rank.KING))
+      val cards = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING))
       val selectedIndices = List(0)
       tui.createHandView(cards, selectedIndices) should be(s"[${Console.YELLOW}Ace♦${Console.RESET}] ${Console.RED}King♥${Console.RESET}")
     }
