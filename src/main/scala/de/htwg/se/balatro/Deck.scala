@@ -5,7 +5,11 @@ case class Deck():
     for {
       r <- CardRank.values.toList
       v <- CardSymbol.values.toList
-  } yield Card(v, r)
+    } yield Card(v, r)
+
+  def draw(count: Int): List[Card] =
+    //todo replace with something random
+    deck.take(count)
     
 
 

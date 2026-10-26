@@ -9,6 +9,7 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, selected: List[
 
   val blind = Blind(Small, 3, 100, 1)
   val currentScore = 30
+  val deck = Deck()
 
   def select(indices: List[Int]): Round = {
     val newSelected = indices.foldLeft(selected) { (selection, index) =>
@@ -34,11 +35,19 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, selected: List[
   def discard(): Round = {
     if (discardCounter == 3) {
       //todo handle if discard is no longer allowed
+      this
+    } else if (selected.isEmpty) {
+      //todo handle empty selection
+      this
+    } else {
+      this.copy(discardCounter = discardCounter + 1, selected = List(), handcards = changeHands(handcards, selected))
     }
-    //todo only if something is selected
-    //todo properly refresh from deck
-    //todo clear selected
-    this.copy(discardCounter = discardCounter + 1, handcards = List(Card(symbol = CardSymbol.SPADES, rank = CardRank.SIX), Card(symbol = CardSymbol.SPADES, rank = CardRank.QUEEN)))
   }
+
+  def changeHands(current: List[Card], indices: List[Int]): List[Card] =
+    val cleanedHand = current.zipWithIndex.collect {
+      case (name, index) if !indices.contains(index) => name
+    }
+    cleanedHand++deck.draw(indices.length)
 
 }
