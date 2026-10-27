@@ -6,5 +6,7 @@ lazy val root = rootProject
     libraryDependencies ++= Seq(
       "org.scalactic" %% "scalactic" % "3.2.14",
       "org.scalatest" %% "scalatest" % "3.2.14" % "test"
-    )
+    ),
+    coverageExcludedPackages :=
+      "de\\.htwg\\.se\\.balatro\\.legacy\\..*",
   )

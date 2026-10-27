@@ -1,4 +1,4 @@
-package de.htwg.se.balatro
+package de.htwg.se.balatro.legacy
 
 // $COVERAGE-OFF$
 @main def gameboard(): Unit =
