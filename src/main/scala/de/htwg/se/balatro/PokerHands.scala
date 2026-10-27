@@ -25,7 +25,18 @@ case class PokerHands(hand: PokerHandTypes) {
     case PAIR => 2
     case HIGH_CARD => 1
 
-  def matchHandType(playedCards: List[Card]): (Int, Int) = {
+  val name = hand match
+    case STRAIGHT_FLUSH => "Straight Flush"
+    case FOUR_OF_A_KIND => "Four of a kind"
+    case FULL_HOUSE => "Full house"
+    case FLUSH => "Flush"
+    case STRAIGHT => "Straight"
+    case THREE_OF_A_KIND => "Three of a kind"
+    case TWO_PAIR => "Two Pair"
+    case PAIR => "Pair"
+    case HIGH_CARD => "High card"
+
+  def matchHandType(playedCards: List[Card]): PokerHands = {
     val sorted = playedCards.sortBy(_.rank.ordinal)
     val length = sorted.length
     if (sorted.forall(_.symbol == sorted.head.symbol) && length == 5) {
@@ -33,11 +44,9 @@ case class PokerHands(hand: PokerHandTypes) {
         case List(current, next) if current.rank.ordinal + 1 == next.rank.ordinal =>
           ()
         case _ =>
-          val flush = PokerHands(FLUSH)
-          return (flush.chips, flush.mult) //flush case
+          return PokerHands(FLUSH) //flush case
       }
-      val stra_flush = PokerHands(STRAIGHT_FLUSH)
-      return (stra_flush.chips, stra_flush.mult) //straight flush case
+      PokerHands(STRAIGHT_FLUSH) //straight flush case
     } else {
       val count1 = sorted.count(_.rank == sorted.head.rank)
       val count2 = sorted.count(_.rank == sorted.last.rank)
@@ -45,31 +54,24 @@ case class PokerHands(hand: PokerHandTypes) {
       val count3 = tuple(1).getOrElse(0)
       val kind = tuple(0)
       if (kind.contains(2) && kind.contains(3)) {
-        val fullhouse = PokerHands(FULL_HOUSE)
-        return (fullhouse.chips, fullhouse.mult) //fullhouse case
+        return PokerHands(FULL_HOUSE) //fullhouse case
       } else if (kind.contains(4)) {
-        val fou_o_k = PokerHands(FOUR_OF_A_KIND)
-        return (fou_o_k.chips, fou_o_k.mult) //four of a kind case
+        return PokerHands(FOUR_OF_A_KIND) //four of a kind case
       } else if (kind.contains(3)) {
-        val thr_o_k = PokerHands(THREE_OF_A_KIND) //three of a kind case
-        return (thr_o_k.chips, thr_o_k.mult)
+        return PokerHands(THREE_OF_A_KIND) //three of a kind case
       } else if (count1 == 2 && count2 == 2 || count1 == 2 && count3 == 2 || count2 == 2 && count3 == 2) {
-        val twopair = PokerHands(TWO_PAIR)
-        return (twopair.chips, twopair.mult) //twopair case
+        return PokerHands(TWO_PAIR) //twopair case
       } else if (kind.contains(2)) {
-        val pair = PokerHands(PAIR)
-        return (pair.chips, pair.mult) //pair case
+        return PokerHands(PAIR) //pair case
       } else if (length == 5) {
         sorted.sliding(2).foreach {
           case List(current, next) if current.rank.ordinal + 1 == next.rank.ordinal =>
             ()
           case _ =>
-            val highcard = PokerHands(HIGH_CARD)
-            return (highcard.chips, highcard.mult) //highcard case
+            return PokerHands(HIGH_CARD) //highcard case
         }
       }
-      val straight = PokerHands(STRAIGHT)
-      (straight.chips, straight.mult)
+      return PokerHands(STRAIGHT) //straight case
     }
   }
 

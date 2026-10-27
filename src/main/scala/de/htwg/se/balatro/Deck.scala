@@ -1,15 +1,22 @@
 package de.htwg.se.balatro
 
-case class Deck():
+import scala.util.Random
+
+case class Deck(remove: Option[List[Card]] = None):
   val deck: List[Card] =
     for {
       r <- CardRank.values.toList
       v <- CardSymbol.values.toList
-    } yield Card(v, r)
+      card = Card(v, r)
+      if !remove.exists(_.contains(card))
+    } yield card
 
-  def draw(count: Int): (List[Card], Deck) =
+  def draw(count: Int, deck: Deck): (List[Card], Deck) = {
     //todo replace with something random
-    (deck.take(count), this)
+    val drawn: List[Card] = Random.shuffle(deck.deck).take(count)
+    val newdeck = Deck(Some(drawn))
+    (drawn, newdeck)
+  }
     
 
 
