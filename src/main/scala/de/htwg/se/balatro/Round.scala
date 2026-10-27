@@ -1,5 +1,7 @@
 package de.htwg.se.balatro
 
+import de.htwg.se.balatro.PokerHandTypes.FLUSH
+
 
 case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: Int = 0, selected: List[Int] = List(), deck: Deck = Deck(), score: Int = 0, blind: Blind) {
 
@@ -20,18 +22,20 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: In
     if (selected.isEmpty) {
       //todo handle empty selection
       this
-    } else if (handCounter >= 3) {
+    } else if (handCounter >= 4) {
       //todo
       this
     } else {
       //todo handle points
+      val validator = PokerHands(FLUSH) //todo fix
+      val pokerHand = validator.matchHandType(selectedCards(handcards, selected))
       val (newHand, newDeck) = changeHands(handcards, selected)
-      this.copy(handCounter = handCounter + 1, selected = List(), handcards = newHand, deck = newDeck)
+      this.copy(handCounter = handCounter + 1, selected = List(), handcards = newHand, deck = newDeck, score = score + pokerHand.chips * pokerHand.mult)
     }
   }
 
   def discard(): Round = {
-    if (discardCounter == 3) {
+    if (discardCounter >= 4) {
       //todo handle if discard is no longer allowed
       this
     } else if (selected.isEmpty) {
@@ -44,10 +48,17 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: In
   }
 
   def changeHands(current: List[Card], indices: List[Int]): (List[Card], Deck) =
-    val cleanedHand = current.zipWithIndex.collect {
-      case (name, index) if !indices.contains(index) => name
-    }
     val (drawn, newDeck) = deck.draw(indices.length)
-    (cleanedHand ++ drawn, newDeck)
+    (remainingCards(current, indices) ++ drawn, newDeck)
+
+  def selectedCards(current: List[Card], indices: List[Int]): List[Card] =
+    current.zipWithIndex
+      .filter { case (_, index) => indices.contains(index) }
+      .map { case (card, _) => card }
+
+  def remainingCards(current: List[Card], indices: List[Int]): List[Card] =
+    current.zipWithIndex
+      .filter { case (_, index) => !indices.contains(index) }
+      .map { case (card, _) => card }
 
 }
