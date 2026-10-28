@@ -7,6 +7,7 @@ import de.htwg.se.balatro.Game
 
 import scala.annotation.tailrec
 
+//Main has no testable logic
 // $COVERAGE-OFF$
 @main def launchMain(): Unit = {
   val tui = TUI()
