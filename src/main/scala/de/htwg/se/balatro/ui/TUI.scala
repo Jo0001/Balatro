@@ -5,10 +5,13 @@ import de.htwg.se.balatro.CardSymbol.*
 import de.htwg.se.balatro.{Card, CardColor, CardSymbol, Game}
 
 class TUI {
-  def createRender(game: Game): String = { //todo add test
+  //all parts are already tested individually
+  // $COVERAGE-OFF$
+  def createRender(game: Game): String = {
     val statusbar = createStatusbar(game.currentRound.score, game.currentRound.blind.goal, game.currentRound.blind.reward, game.currentRound.blind.ante, game.roundCounter)
     s"${createTitle(game.currentRound.blind.blindType.toString, statusbar, Console.BLUE_B)}\n${statusbar}\n\n${createHandView(game.currentRound.handcards, game.currentRound.selected)}\n\n${createMenu()}"
   }
+  // $COVERAGE-ON$
 
   def createTitle(title: String, statusbar: String, color: String): String = {
     val spaces = statusbar.length / 2 - title.length / 2

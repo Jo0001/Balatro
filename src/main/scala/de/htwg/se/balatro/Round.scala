@@ -14,7 +14,7 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: In
       } else if (selection.size < 5) {
         index :: selection
       } else {
-        selection
+        List() //reset selection if too much is selected
       }
     }
     copy(selected = newSelected)
