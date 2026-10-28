@@ -27,8 +27,7 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: In
       this
     } else {
       //todo handle points
-      val validator = PokerHands(FLUSH) //todo fix
-      val pokerHand = validator.matchHandType(selectedCards(handcards, selected))
+      val pokerHand = PokerHands(selectedCards(handcards, selected))
       val (newHand, newDeck) = changeHands(handcards, selected)
       this.copy(handCounter = handCounter + 1, selected = List(), handcards = newHand, deck = newDeck, score = score + pokerHand.chips * pokerHand.mult)
     }
