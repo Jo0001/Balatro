@@ -2,7 +2,7 @@ package de.htwg.se.balatro
 
 import de.htwg.se.balatro.PokerHandTypes.*
 
-case class PokerHands(hand: PokerHandTypes) {
+case class PokerHands(hand: PokerHandTypes, cards: List[Card]) {
   val chips = hand match
     case STRAIGHT_FLUSH => 100
     case FOUR_OF_A_KIND => 60
@@ -28,15 +28,17 @@ case class PokerHands(hand: PokerHandTypes) {
   val name = hand match
     case STRAIGHT_FLUSH => "Straight Flush"
     case FOUR_OF_A_KIND => "Four of a kind"
-    case FULL_HOUSE => "Full house"
+    case FULL_HOUSE => "Full House"
     case FLUSH => "Flush"
     case STRAIGHT => "Straight"
     case THREE_OF_A_KIND => "Three of a kind"
     case TWO_PAIR => "Two Pair"
     case PAIR => "Pair"
-    case HIGH_CARD => "High card"
+    case HIGH_CARD => "High Card"
+}
 
-  def matchHandType(playedCards: List[Card]): PokerHands = {
+object PokerHands:
+  def matchHandType(playedCards: List[Card]): PokerHandTypes = {
     val sorted = playedCards.sortBy(_.rank.ordinal)
     val length = sorted.length
     if (sorted.forall(_.symbol == sorted.head.symbol) && length == 5) {
@@ -44,9 +46,9 @@ case class PokerHands(hand: PokerHandTypes) {
         case List(current, next) if current.rank.ordinal + 1 == next.rank.ordinal =>
           ()
         case _ =>
-          return PokerHands(FLUSH) //flush case
+          return FLUSH //flush case
       }
-      PokerHands(STRAIGHT_FLUSH) //straight flush case
+      STRAIGHT_FLUSH //straight flush case
     } else {
       val count1 = sorted.count(_.rank == sorted.head.rank)
       val count2 = sorted.count(_.rank == sorted.last.rank)
@@ -54,26 +56,29 @@ case class PokerHands(hand: PokerHandTypes) {
       val count3 = tuple(1).getOrElse(0)
       val kind = tuple(0)
       if (kind.contains(2) && kind.contains(3)) {
-        return PokerHands(FULL_HOUSE) //fullhouse case
+        return FULL_HOUSE //fullhouse case
       } else if (kind.contains(4)) {
-        return PokerHands(FOUR_OF_A_KIND) //four of a kind case
+        return FOUR_OF_A_KIND //four of a kind case
       } else if (kind.contains(3)) {
-        return PokerHands(THREE_OF_A_KIND) //three of a kind case
+        return THREE_OF_A_KIND //three of a kind case
       } else if (count1 == 2 && count2 == 2 || count1 == 2 && count3 == 2 || count2 == 2 && count3 == 2) {
-        return PokerHands(TWO_PAIR) //twopair case
+        return TWO_PAIR //twopair case
       } else if (kind.contains(2)) {
-        return PokerHands(PAIR) //pair case
-      } else if (length == 5) {
+        return PAIR //pair case
+      } else {
         sorted.sliding(2).foreach {
           case List(current, next) if current.rank.ordinal + 1 == next.rank.ordinal =>
             ()
           case _ =>
-            return PokerHands(HIGH_CARD) //highcard case
+            return HIGH_CARD //highcard case
         }
       }
-      return PokerHands(STRAIGHT) //straight case
+      return STRAIGHT //straight case
     }
   }
+
+  def apply(cards: List[Card]): PokerHands =
+    new PokerHands(matchHandType(cards), cards)
 
   def templist(length: Int, count1: Int, count2: Int, sorted: List[Card]): (List[Int], Option[Int]) = {
     if (length >= 3) {
@@ -83,7 +88,6 @@ case class PokerHands(hand: PokerHandTypes) {
       (List(count1, count2), None)
     }
   }
-}
 
 
 
