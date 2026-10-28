@@ -11,9 +11,9 @@ case class Deck(remove: Option[List[Card]] = None):
       if !remove.exists(_.contains(card))
     } yield card
 
-  def draw(count: Int): (List[Card], Deck) = {
+  def draw(rand: Random, count: Int): (List[Card], Deck) = {
     //todo replace with something random
-    val drawn: List[Card] = Random.shuffle(deck).take(count)
+    val drawn: List[Card] = rand.shuffle(deck).take(count)
     val newdeck = Deck(Some(drawn))
     (drawn, newdeck)
   }

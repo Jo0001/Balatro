@@ -4,8 +4,11 @@ import de.htwg.se.balatro.BlindType.*
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
+import scala.util.Random
+
 class RoundSpec extends AnyWordSpec {
   val blind = Blind(Small, 3, 100, 1)
+  val rand = Random(123)
   "Round" should {
     "have a select method to select single cards" in {
       val handcards = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING))
@@ -37,23 +40,24 @@ class RoundSpec extends AnyWordSpec {
   "Round" should {
     "have a method to discard cards" in {
       val handcards = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING))
-      val round = Round(handcards, selected = List(1), blind = blind)
-      val handcardsNew = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.SPADES, rank = CardRank.ACE))
-      round.discard() should be(Round(handcards = handcardsNew, selected = List(), discardCounter = 1, blind = blind))
+      val round = Round(handcards, selected = List(1), blind = blind, rand = rand)
+      val handcardsNew = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.CLUBS, rank = CardRank.TEN))
+      val deckNew = Deck(Some(List(Card(symbol = CardSymbol.CLUBS, rank = CardRank.TEN))))
+      round.discard() should be(Round(handcards = handcardsNew, selected = List(), discardCounter = 1, blind = blind, rand = rand, deck = deckNew))
     }
   }
   "Round" should {
-    "have a method to discard cards only with selected" in {
+    "have a method to discard cards which does nothing if no cards are selected" in {
       val handcards = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING))
       val round = Round(handcards, selected = List(), blind = blind)
       round.discard() should be(Round(handcards = handcards, selected = List(), blind = blind))
     }
   }
   "Round" should {
-    "have a method to discard cards only with discardcounter < 3" in {
+    "have a method to discard cards only with discardcounter < 4" in {
       val handcards = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING))
-      val round = Round(handcards, selected = List(1), discardCounter = 3, blind = blind)
-      round.discard() should be(Round(handcards = handcards, selected = List(1), discardCounter = 3, blind = blind))
+      val round = Round(handcards, selected = List(1), discardCounter = 4, blind = blind)
+      round.discard() should be(Round(handcards = handcards, selected = List(1), discardCounter = 4, blind = blind))
     }
   }
 

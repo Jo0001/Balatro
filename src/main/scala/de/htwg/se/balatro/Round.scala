@@ -2,8 +2,10 @@ package de.htwg.se.balatro
 
 import de.htwg.se.balatro.PokerHandTypes.FLUSH
 
+import scala.util.Random
 
-case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: Int = 0, selected: List[Int] = List(), deck: Deck = Deck(), score: Int = 0, blind: Blind) {
+
+case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: Int = 0, selected: List[Int] = List(), deck: Deck = Deck(), score: Int = 0, blind: Blind, rand: Random = Random) {
 
   def select(indices: List[Int]): Round = {
     val newSelected = indices.foldLeft(selected) { (selection, index) =>
@@ -48,7 +50,7 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: In
   }
 
   def changeHands(current: List[Card], indices: List[Int]): (List[Card], Deck) =
-    val (drawn, newDeck) = deck.draw(indices.length)
+    val (drawn, newDeck) = deck.draw(rand, indices.length)
     (remainingCards(current, indices) ++ drawn, newDeck)
 
   def selectedCards(current: List[Card], indices: List[Int]): List[Card] =
