@@ -3,11 +3,12 @@ package de.htwg.se.balatro
 import de.htwg.se.balatro.Action.*
 import de.htwg.se.balatro.BlindType.*
 
+import scala.util.Random
+
 //Game currently only calls other classes with no logic on itself so its currently not tested
 // $COVERAGE-OFF$
 case class Game(player: Player = Player(0),
-                currentRound: Round = Round(handcards = List(Card(symbol = CardSymbol.HEARTS, rank = CardRank.ACE), Card(symbol = CardSymbol.SPADES, rank = CardRank.TWO)),
-                  blind = Blind(Small, 3, 100, 1)),
+                currentRound: Round,
                 roundCounter: Int = 1) {
 
   def handle(action: Action): Game = {
@@ -20,3 +21,9 @@ case class Game(player: Player = Player(0),
   }
   // $COVERAGE-ON$
 }
+
+object Game:
+  def start(rand: Random = Random): Game =
+    val deck = Deck()
+    val round = Round.start(deck, Blind(Small, 3, 100, 1), rand)
+    Game(currentRound = round)
