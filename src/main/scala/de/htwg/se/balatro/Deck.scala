@@ -12,7 +12,6 @@ case class Deck(remove: Option[List[Card]] = None, olddeck: Option[List[Card]] =
     } yield card
 
   def draw(rand: Random, count: Int): (List[Card], Deck) = {
-    //todo replace with something random
     val drawn: List[Card] = rand.shuffle(deck).take(count)
     val newdeck = Deck(Some(drawn), Some(this.deck))
     (drawn, newdeck)
