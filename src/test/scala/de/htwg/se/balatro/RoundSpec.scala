@@ -75,7 +75,7 @@ class RoundSpec extends AnyWordSpec {
       val round = Round(handcards, selected = List(1), blind = blind, rand = rand)
       val handcardsNew = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.CLUBS, rank = CardRank.TEN))
       val deckNew = Deck(Some(List(Card(symbol = CardSymbol.CLUBS, rank = CardRank.TEN))), Some(round.deck.deck))
-      round.play() should be(Round(handcards = handcardsNew, selected = List(), handCounter = 1, blind = blind, score = 5, rand = rand, deck = deckNew))
+      round.play() should be(Round(handcards = handcardsNew, selected = List(), handCounter = 1, blind = blind, score = 15, rand = rand, deck = deckNew))
     }
   }
   "Round" should {

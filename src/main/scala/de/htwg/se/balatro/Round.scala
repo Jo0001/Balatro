@@ -27,10 +27,9 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: In
       //todo
       this
     } else {
-      //todo handle points
       val pokerHand = PokerHands(selectedCards(handcards, selected))
       val (newHand, newDeck) = changeHands(handcards, selected)
-      this.copy(handCounter = handCounter + 1, selected = List(), handcards = newHand, deck = newDeck, score = score + pokerHand.chips * pokerHand.mult)
+      this.copy(handCounter = handCounter + 1, selected = List(), handcards = newHand, deck = newDeck, score = score + pokerHand.cardValues + pokerHand.chips * pokerHand.mult)
     }
   }
 
