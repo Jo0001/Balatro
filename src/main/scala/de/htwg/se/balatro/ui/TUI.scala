@@ -9,7 +9,8 @@ class TUI {
   // $COVERAGE-OFF$
   def createRender(game: Game): String = {
     val statusbar = createStatusbar(game.currentRound.score, game.currentRound.blind.goal, game.currentRound.blind.reward, game.currentRound.blind.ante, game.roundCounter)
-    s"${createTitle(game.currentRound.blind.blindType.toString, statusbar, Console.BLUE_B)}\n${statusbar}\n\n${createHandView(game.currentRound.handcards, game.currentRound.selected)}\n\n${createMenu()}"
+    val livescore = createLiveScore(game.currentRound.currentHand().cardValues + game.currentRound.currentHand().chips, game.currentRound.currentHand().mult, game.currentRound.currentHand().name) //todo calc values directly in Pokerhand
+    s"${createTitle(game.currentRound.blind.blindType.toString, statusbar, Console.BLUE_B)}\n${statusbar}\n$livescore\n\n${createHandView(game.currentRound.handcards, game.currentRound.selected)}\n\n${createMenu()}"
   }
   // $COVERAGE-ON$
 
@@ -20,6 +21,9 @@ class TUI {
 
   def createStatusbar(current: Int, goal: Int, reward: Int, ante: Int, round: Int): String =
     s"<Score $current/$goal> || <Reward $reward$$> || <Ante $ante/8> || <Round $round>"
+
+  def createLiveScore(chips: Int, mult: Int, name: String): String =
+    s"${Console.BLUE_B}$chips${Console.RESET}x${Console.RED_B}$mult${Console.RESET} $name"
 
   def createMenu(): String =
     """Menu

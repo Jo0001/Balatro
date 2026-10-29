@@ -6,6 +6,12 @@ import scala.util.Random
 
 
 case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: Int = 0, selected: List[Int] = List(), deck: Deck = Deck(), score: Int = 0, blind: Blind, rand: Random = Random) {
+  def currentHand(): PokerHands =
+    if(selectedCards(handcards, selected).nonEmpty) {
+      PokerHands(selectedCards(handcards, selected))
+    } else {
+      PokerHands(List())//todo not finished
+    }
 
   def select(indices: List[Int]): Round = {
     val newSelected = indices.foldLeft(selected) { (selection, index) =>

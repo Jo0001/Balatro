@@ -37,7 +37,9 @@ case class PokerHands(hand: PokerHandTypes, validCards: List[Int], sortedCards: 
     case HIGH_CARD => "High Card"
 
   val cardValues =
-    (for i <- validCards.indices yield sortedCards(validCards(i)).value).sum
+    (for index <- validCards
+         if index >= 0 && index < sortedCards.length
+    yield sortedCards(index).value).sum
 }
 
 object PokerHands:
