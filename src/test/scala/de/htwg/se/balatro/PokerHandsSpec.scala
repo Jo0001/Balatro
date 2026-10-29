@@ -90,8 +90,8 @@ class PokerHandsSpec extends AnyWordSpec {
 
   "PokerHands" should {
     "be Two Pair var 2" in {
-      val lst = List(Card(symbol = CardSymbol.SPADES, rank = CardRank.ACE), Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE),
-        Card(symbol = CardSymbol.HEARTS, rank = CardRank.THREE), Card(symbol = CardSymbol.SPADES, rank = CardRank.KING),
+      val lst = List(Card(symbol = CardSymbol.SPADES, rank = CardRank.THREE), Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.THREE),
+        Card(symbol = CardSymbol.HEARTS, rank = CardRank.FOUR), Card(symbol = CardSymbol.SPADES, rank = CardRank.FOUR),
         Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.KING))
       val two_pair = PokerHands(lst)
       two_pair.chips should be(20)
@@ -102,8 +102,8 @@ class PokerHandsSpec extends AnyWordSpec {
 
   "PokerHands" should {
     "be Two Pair var 3" in {
-      val lst = List(Card(symbol = CardSymbol.SPADES, rank = CardRank.THREE), Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE),
-        Card(symbol = CardSymbol.HEARTS, rank = CardRank.ACE), Card(symbol = CardSymbol.SPADES, rank = CardRank.KING),
+      val lst = List(Card(symbol = CardSymbol.SPADES, rank = CardRank.THREE), Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.THREE),
+        Card(symbol = CardSymbol.HEARTS, rank = CardRank.FOUR), Card(symbol = CardSymbol.SPADES, rank = CardRank.KING),
         Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.KING))
       val two_pair = PokerHands(lst)
       two_pair.chips should be(20)
