@@ -12,7 +12,7 @@ import scala.annotation.tailrec
 @main def launchMain(): Unit = {
   val tui = TUI()
   val parser = Parser()
-  val game = Game()
+  val game = Game.start()
   println(tui.createRender(game))
   runloop(tui, parser, game)
 }

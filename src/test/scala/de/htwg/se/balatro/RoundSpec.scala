@@ -92,5 +92,21 @@ class RoundSpec extends AnyWordSpec {
       round.play() should be(Round(handcards = handcards, selected = List(0), blind = blind, handCounter = 4))
     }
   }
+  "Round.start()" should {
+    val round = Round.start(Deck(), blind)
+
+    "have 8 hand cards" in {
+      round.handcards.size shouldBe 8
+    }
+    "have no selected cards and all counters on 0" in {
+      round.selected shouldBe empty
+      round.handCounter shouldBe 0
+      round.discardCounter shouldBe 0
+      round.score shouldBe 0
+    }
+    "start with the small blind" in {
+      round.blind shouldBe Blind(Small, 3, 100, 1)
+    }
+  }
 
 }

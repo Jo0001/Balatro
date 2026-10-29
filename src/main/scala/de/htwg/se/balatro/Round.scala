@@ -11,13 +11,12 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: In
     val newSelected = indices.foldLeft(selected) { (selection, index) =>
       if (selection.contains(index)) {
         selection.filterNot(element => element == index)
-      } else if (selection.size < 5) {
-        index :: selection
       } else {
-        List() //reset selection if too much is selected
+        index :: selection
       }
     }
-    copy(selected = newSelected)
+    //if over 5 cards are selected, clear all
+    copy(selected = if newSelected.size > 5 then List() else newSelected)
   }
 
   def play(): Round = {
@@ -63,3 +62,9 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: In
       .map { case (card, _) => card }
 
 }
+
+object Round:
+  def start(deck: Deck, blind: Blind, rand: Random = Random): Round = {
+    val (handcards, newDeck) = deck.draw(rand, 8)
+    Round(handcards = handcards, deck = newDeck, blind = blind, rand = rand)
+  }
