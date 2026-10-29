@@ -77,7 +77,7 @@ class PokerHandsSpec extends AnyWordSpec {
   }
 
   "PokerHands" should {
-    "be Two Pair" in {
+    "be Two Pair var 1" in {
       val lst = List(Card(symbol = CardSymbol.SPADES, rank = CardRank.ACE), Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE),
         Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING), Card(symbol = CardSymbol.SPADES, rank = CardRank.KING),
         Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.THREE))
@@ -89,7 +89,7 @@ class PokerHandsSpec extends AnyWordSpec {
   }
 
   "PokerHands" should {
-    "be Two Pair" in {
+    "be Two Pair var 2" in {
       val lst = List(Card(symbol = CardSymbol.SPADES, rank = CardRank.ACE), Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE),
         Card(symbol = CardSymbol.HEARTS, rank = CardRank.THREE), Card(symbol = CardSymbol.SPADES, rank = CardRank.KING),
         Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.KING))
@@ -101,7 +101,7 @@ class PokerHandsSpec extends AnyWordSpec {
   }
 
   "PokerHands" should {
-    "be Two Pair" in {
+    "be Two Pair var 3" in {
       val lst = List(Card(symbol = CardSymbol.SPADES, rank = CardRank.THREE), Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE),
         Card(symbol = CardSymbol.HEARTS, rank = CardRank.ACE), Card(symbol = CardSymbol.SPADES, rank = CardRank.KING),
         Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.KING))
