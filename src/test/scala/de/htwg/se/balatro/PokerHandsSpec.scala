@@ -3,8 +3,8 @@ package de.htwg.se.balatro
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
-class PokerHandsSpec extends AnyWordSpec{
-  
+class PokerHandsSpec extends AnyWordSpec {
+
   "PokerHands" should {
     "be Straight Flush" in {
       val lst = List(Card(symbol = CardSymbol.SPADES, rank = CardRank.ACE), Card(symbol = CardSymbol.SPADES, rank = CardRank.KING),
@@ -64,29 +64,53 @@ class PokerHandsSpec extends AnyWordSpec{
     }
   }
 
-    "PokerHands" should {
-      "be Three of a kind" in {
-        val lst = List(Card(symbol = CardSymbol.SPADES, rank = CardRank.ACE), Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE),
-          Card(symbol = CardSymbol.HEARTS, rank = CardRank.ACE), Card(symbol = CardSymbol.SPADES, rank = CardRank.TWO),
-          Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.THREE))
-        val three = PokerHands(lst)
-        three.chips should be(30)
-        three.mult should be(3)
-        three.name should be("Three of a kind")
-      }
+  "PokerHands" should {
+    "be Three of a kind" in {
+      val lst = List(Card(symbol = CardSymbol.SPADES, rank = CardRank.ACE), Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE),
+        Card(symbol = CardSymbol.HEARTS, rank = CardRank.ACE), Card(symbol = CardSymbol.SPADES, rank = CardRank.TWO),
+        Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.THREE))
+      val three = PokerHands(lst)
+      three.chips should be(30)
+      three.mult should be(3)
+      three.name should be("Three of a kind")
     }
+  }
 
-      "PokerHands" should {
-        "be Two Pair" in {
-          val lst = List(Card(symbol = CardSymbol.SPADES, rank = CardRank.ACE), Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE),
-            Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING), Card(symbol = CardSymbol.SPADES, rank = CardRank.KING),
-            Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.THREE))
-          val two_pair = PokerHands(lst)
-          two_pair.chips should be(20)
-          two_pair.mult should be(2)
-          two_pair.name should be("Two Pair")
-        }
-      }
+  "PokerHands" should {
+    "be Two Pair" in {
+      val lst = List(Card(symbol = CardSymbol.SPADES, rank = CardRank.ACE), Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE),
+        Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING), Card(symbol = CardSymbol.SPADES, rank = CardRank.KING),
+        Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.THREE))
+      val two_pair = PokerHands(lst)
+      two_pair.chips should be(20)
+      two_pair.mult should be(2)
+      two_pair.name should be("Two Pair")
+    }
+  }
+
+  "PokerHands" should {
+    "be Two Pair" in {
+      val lst = List(Card(symbol = CardSymbol.SPADES, rank = CardRank.ACE), Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE),
+        Card(symbol = CardSymbol.HEARTS, rank = CardRank.THREE), Card(symbol = CardSymbol.SPADES, rank = CardRank.KING),
+        Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.KING))
+      val two_pair = PokerHands(lst)
+      two_pair.chips should be(20)
+      two_pair.mult should be(2)
+      two_pair.name should be("Two Pair")
+    }
+  }
+
+  "PokerHands" should {
+    "be Two Pair" in {
+      val lst = List(Card(symbol = CardSymbol.SPADES, rank = CardRank.THREE), Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE),
+        Card(symbol = CardSymbol.HEARTS, rank = CardRank.ACE), Card(symbol = CardSymbol.SPADES, rank = CardRank.KING),
+        Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.KING))
+      val two_pair = PokerHands(lst)
+      two_pair.chips should be(20)
+      two_pair.mult should be(2)
+      two_pair.name should be("Two Pair")
+    }
+  }
 
   "PokerHands" should {
     "be Pair" in {
@@ -113,6 +137,4 @@ class PokerHandsSpec extends AnyWordSpec{
   }
 
 
-
-
-  }
+}
