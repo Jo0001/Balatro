@@ -46,11 +46,31 @@ jobs:
             echo "- Branches: ${branch}%"
           } >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Filter ignored statements for Sonar
+        if: always()
+        run: |
+          python3 - <<'EOF'
+          import glob
+          import xml.etree.ElementTree as ET
+          for f in glob.glob("**/scoverage-report/scoverage.xml", recursive=True):
+              tree = ET.parse(f)
+              parents = {c: p for p in tree.iter() for c in p}
+              total = removed = 0
+              for el in list(tree.iter("statement")):
+                  total += 1
+                  if el.get("ignored") == "true":
+                      parents[el].remove(el)
+                      removed += 1
+              out = f.replace("scoverage.xml", "scoverage-sonar.xml")
+              tree.write(out, encoding="UTF-8", xml_declaration=True)
+              print(f"{f}: {removed} ignored of {total} statements -> {out}")
+          EOF      
+
       - name: Locate scoverage report
         id: scoverage
         if: always()
         run: |
-          paths=$(find . -name scoverage.xml | paste -sd, -)
+          paths=$(find . -name scoverage-sonar.xml | paste -sd, -)
           echo "paths=${paths}" >> "$GITHUB_OUTPUT"
 
       - name: SonarQube Cloud Scan
