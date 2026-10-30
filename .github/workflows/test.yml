@@ -19,14 +19,14 @@ jobs:
           java-version: 25
           cache: sbt
 
-      - uses: sbt/setup-sbt@v1
+      - uses: sbt/setup-sbt@ecad189dd245444b9ae0a0cd5922fd938b88906f # v1
 
       - name: Build, Tests and Coverage
         run: sbt "cleanFull; clean; coverage; testFull; coverageReport"
 
       - name: Test Report
         if: always()
-        uses: mikepenz/action-junit-report@v5
+        uses: mikepenz/action-junit-report@3585e9575db828022551b4231f165eb59a0e74e3  # v5
         with:
           report_paths: "**/test-reports/*.xml"
           check_name: Test Results
