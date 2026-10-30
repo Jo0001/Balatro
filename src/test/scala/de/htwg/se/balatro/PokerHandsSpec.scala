@@ -247,5 +247,15 @@ class PokerHandsSpec extends AnyWordSpec {
     }
   }
 
+  "PokerHands" should {
+    "be Empty" in {
+      val empty = new PokerHands(PokerHandTypes.EMPTY, List(), List())
+      empty.chips should be(0)
+      empty.mult should be(0)
+      empty.name should be("")
+      empty.cardValues should be(0)
+    }
+  }
+
 
 }

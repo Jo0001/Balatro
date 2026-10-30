@@ -13,6 +13,7 @@ case class PokerHands(hand: PokerHandTypes, validCards: List[Int], sortedCards: 
     case TWO_PAIR => 20
     case PAIR => 10
     case HIGH_CARD => 5
+    case EMPTY => 0
 
   val mult = hand match
     case STRAIGHT_FLUSH => 8
@@ -24,6 +25,7 @@ case class PokerHands(hand: PokerHandTypes, validCards: List[Int], sortedCards: 
     case TWO_PAIR => 2
     case PAIR => 2
     case HIGH_CARD => 1
+    case EMPTY => 0
 
   val name = hand match
     case STRAIGHT_FLUSH => "Straight Flush"
@@ -35,6 +37,7 @@ case class PokerHands(hand: PokerHandTypes, validCards: List[Int], sortedCards: 
     case TWO_PAIR => "Two Pair"
     case PAIR => "Pair"
     case HIGH_CARD => "High Card"
+    case EMPTY => ""
 
   val cardValues =
     (for index <- validCards
@@ -82,7 +85,7 @@ object PokerHands:
           return (TWO_PAIR, List(0, 1, 2, 3)) //twopair case 1
         } else if (countFirst == 2 && countLast == 2) {
           return (TWO_PAIR, List(0, 1, 3, 4)) //twopair case 2
-        } else if (countLast == 2 && countThird == 2) {
+        } else {
           return (TWO_PAIR, List(1, 2, 3, 4)) //twopair case 3
         }
       } else if (kind.contains(2)) {
