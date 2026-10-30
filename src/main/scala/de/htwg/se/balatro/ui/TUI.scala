@@ -9,7 +9,7 @@ class TUI {
   // $COVERAGE-OFF$
   def createRender(game: Game): String = {
     val statusbar = createStatusbar(game.currentRound.score, game.currentRound.blind.goal, game.currentRound.blind.reward, game.currentRound.blind.ante, game.roundCounter)
-    val livescore = createLiveScore(game.currentRound.currentHand().cardValues + game.currentRound.currentHand().chips, game.currentRound.currentHand().mult, game.currentRound.currentHand().name) //todo calc values directly in Pokerhand
+    val livescore = createLiveScore(game.currentRound.currentHand().chipsTotal, game.currentRound.currentHand().mult, game.currentRound.currentHand().name)
     s"${createTitle(game.currentRound.blind.blindType.toString, statusbar, Console.BLUE_B)}\n${statusbar}\n$livescore\n\n${createHandView(game.currentRound.handcards, game.currentRound.selected)}\n\n${createMenu()}"
   }
   // $COVERAGE-ON$

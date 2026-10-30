@@ -25,6 +25,13 @@ class TUISpec extends AnyWordSpec {
     }
   }
   "TUI" should {
+    "have a livescore" in {
+      val tui = TUI()
+      val score = tui.createLiveScore(10, 2, "Pair")
+      score should be(s"${Console.BLUE_B}10${Console.RESET}x${Console.RED_B}2${Console.RESET} Pair")
+    }
+  }
+  "TUI" should {
     "have a menu" in {
       val tui = TUI()
       tui.createMenu() should be(
