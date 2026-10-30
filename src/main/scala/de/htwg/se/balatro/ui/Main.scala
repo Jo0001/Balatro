@@ -14,6 +14,7 @@ import scala.annotation.tailrec
   val parser = Parser()
   val game = Game.start()
   println(tui.createRender(game))
+  print(">")
   runloop(tui, parser, game)
 }
 
@@ -24,10 +25,12 @@ def runloop(tui: TUI, parser: Parser, game: Game): Game =
   val action = parser.parse(line)
   if (action == UnknownCommand) {
     println(tui.createCommandErrorMessage(line))
+    print(">")
     runloop(tui, parser, game)
   } else {
     val newGame = game.handle(action)
     println(tui.createRender(newGame))
+    print(">")
     runloop(tui, parser, newGame)
   }
 // $COVERAGE-ON$
