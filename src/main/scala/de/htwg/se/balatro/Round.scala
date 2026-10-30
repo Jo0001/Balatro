@@ -11,7 +11,7 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: In
     if (selectedCards(handcards, selected).nonEmpty) {
       PokerHands(selectedCards(handcards, selected))
     } else {
-      PokerHands(List()) //todo not finished
+      PokerHands(PokerHandTypes.EMPTY, List(), List())
     }
 
   def select(indices: List[Int]): Round = {

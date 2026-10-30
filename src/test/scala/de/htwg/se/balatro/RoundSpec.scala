@@ -102,7 +102,7 @@ class RoundSpec extends AnyWordSpec {
   "Round" should {
     "have a method show the current hand as PokerHand as empty" in {
       val round = Round(List(), selected = List(), blind = blind)
-      round.currentHand() should be(PokerHands(List()))
+      round.currentHand() should be(PokerHands(PokerHandTypes.EMPTY, List(), List()))
     }
   }
   "Round.start()" should {
