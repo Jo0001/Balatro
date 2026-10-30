@@ -43,6 +43,9 @@ case class PokerHands(hand: PokerHandTypes, validCards: List[Int], sortedCards: 
     (for index <- validCards
          if index >= 0 && index < sortedCards.length
     yield sortedCards(index).value).sum
+
+  val chipsTotal: Int = cardValues + chips
+  val scoreTotal: Int = chipsTotal * mult
 }
 
 object PokerHands:

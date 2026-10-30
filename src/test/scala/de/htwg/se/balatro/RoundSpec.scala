@@ -92,6 +92,19 @@ class RoundSpec extends AnyWordSpec {
       round.play() should be(Round(handcards = handcards, selected = List(0), blind = blind, handCounter = 4))
     }
   }
+  "Round" should {
+    "have a method show the current hand as PokerHand" in {
+      val handcards = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.HEARTS, rank = CardRank.ACE))
+      val round = Round(handcards, selected = List(0, 1), blind = blind)
+      round.currentHand() should be(PokerHands(handcards))
+    }
+  }
+  "Round" should {
+    "have a method show the current hand as PokerHand as empty" in {
+      val round = Round(List(), selected = List(), blind = blind)
+      round.currentHand() should be(PokerHands(List()))
+    }
+  }
   "Round.start()" should {
     val round = Round.start(Deck(), blind)
 
