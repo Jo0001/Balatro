@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5.1.0
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-java@v5.7.0
         with:
@@ -44,6 +46,13 @@ jobs:
             echo "- Branches: ${branch}%"
           } >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Locate scoverage report
+        id: scoverage
+        if: always()
+        run: |
+          paths=$(find . -name scoverage.xml | paste -sd, -)
+          echo "paths=${paths}" >> "$GITHUB_OUTPUT"
+
       - name: SonarQube Cloud Scan
         if: steps.scoverage.outputs.paths != ''
         uses: SonarSource/sonarqube-scan-action@v8
@@ -51,8 +60,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.scala.coverage.reportPaths=${{ steps.scoverage.outputs.paths }}
-            -Dsonar.junit.reportPaths=target/test-reports    
+            -Dsonar.scala.coverage.reportPaths=${{ steps.scoverage.outputs.paths }}   
 
       - name: Upload Coverage-Report
         if: always()
