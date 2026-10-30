@@ -44,6 +44,16 @@ jobs:
             echo "- Branches: ${branch}%"
           } >> "$GITHUB_STEP_SUMMARY"
 
+      - name: SonarQube Cloud Scan
+        if: steps.scoverage.outputs.paths != ''
+        uses: SonarSource/sonarqube-scan-action@v8
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.scala.coverage.reportPaths=${{ steps.scoverage.outputs.paths }}
+            -Dsonar.junit.reportPaths=target/test-reports    
+
       - name: Upload Coverage-Report
         if: always()
         uses: actions/upload-artifact@v5.0.0
