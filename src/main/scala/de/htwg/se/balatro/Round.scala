@@ -1,16 +1,17 @@
 package de.htwg.se.balatro
 
-import de.htwg.se.balatro.PokerHandTypes.FLUSH
-
 import scala.util.Random
 
 
 case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: Int = 0, selected: List[Int] = List(), deck: Deck = Deck(), score: Int = 0, blind: Blind, rand: Random = Random) {
+  val maxPlays = 4
+  val maxDiscards = 4
+
   def currentHand(): PokerHands =
-    if(selectedCards(handcards, selected).nonEmpty) {
+    if (selectedCards(handcards, selected).nonEmpty) {
       PokerHands(selectedCards(handcards, selected))
     } else {
-      PokerHands(List())//todo not finished
+      PokerHands(List()) //todo not finished
     }
 
   def select(indices: List[Int]): Round = {
@@ -29,7 +30,7 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: In
     if (selected.isEmpty) {
       //todo handle empty selection
       this
-    } else if (handCounter >= 4) {
+    } else if (handCounter >= maxPlays) {
       //todo
       this
     } else {
@@ -40,7 +41,7 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: In
   }
 
   def discard(): Round = {
-    if (discardCounter >= 4) {
+    if (discardCounter >= maxDiscards) {
       //todo handle if discard is no longer allowed
       this
     } else if (selected.isEmpty) {

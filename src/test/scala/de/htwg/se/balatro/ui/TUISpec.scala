@@ -35,14 +35,13 @@ class TUISpec extends AnyWordSpec {
     "have a menu" in {
       val tui = TUI()
       tui.createMenu() should be(
-        """Menu
-
-          |Use 'select <cardnumber>' or 'select <cardnumberA cardnumberB ...> to select cards
-          |Selecting the same card again will unselect it
-          |Card numbers are starting with 1 (to not confuse non techy users)
-          |Use 'play' to ... well play your selected cards
-          |Use 'discard' to discard your selected cards
-          |Use 'menu' to open the settings and exit the game""".stripMargin)
+        s"""${Console.UNDERLINED}Menu${Console.RESET}
+           |Use 'select <cardnumber>' or 'select <cardnumberA cardnumberB ...> to select cards
+           |Selecting the same card again will unselect it
+           |Card numbers are starting with 1 (to not confuse non techy users)
+           |Use 'play' to ... well play your selected cards
+           |Use 'discard' to discard your selected cards
+           |Use 'menu' to open the settings and exit the game""".stripMargin)
     }
   }
   "TUI" should {
@@ -115,7 +114,9 @@ class TUISpec extends AnyWordSpec {
       val tui = TUI()
       val cards = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING))
       val selectedIndices = List(0)
-      tui.createHandView(cards, selectedIndices) should be(s"[${Console.YELLOW}Ace♦${Console.RESET}] ${Console.RED}King♥${Console.RESET}")
+      val bar = tui.createStatusbar(20, 300, 3, 1, 1)
+      //yes those spaces have to be there!
+      tui.createHandView(bar, cards, selectedIndices) should be(s"[${Console.YELLOW}Ace♦${Console.RESET}]                                             ${Console.RED}King♥${Console.RESET}")
     }
   }
 
@@ -123,6 +124,26 @@ class TUISpec extends AnyWordSpec {
     "have a unknown command error" in {
       val tui = TUI()
       tui.createCommandErrorMessage("ply") should be(s"${Console.RED}Unknown or misspelled command 'ply' ${Console.RESET}")
+    }
+  }
+  "TUI" should {
+    "have remaining hands/discards view" in {
+      val tui = TUI()
+      tui.createRemaining(2, 5, 3, 5) should be(s"Hands:${Console.BLUE_B}2${Console.RESET} Discards:${Console.RED_B}3${Console.RESET}")
+    }
+  }
+  "TUI" should {
+    "have util method to distribute spaces (which ignores Console colors)" in {
+      val tui = TUI()
+      //yes those spaces have to be there!
+      tui.useSpace(20, List(s"Hands:${Console.BLUE_B}2${Console.RESET}", s"Discards:${Console.RED_B}3${Console.RESET}")) should be(s"Hands:${Console.BLUE_B}2${Console.RESET}   Discards:${Console.RED_B}3${Console.RESET}")
+    }
+  }
+  "TUI" should {
+    "have util method to distribute spaces (which works with single elements too)" in {
+      val tui = TUI()
+      //yes those spaces have to be there!
+      tui.useSpace(20, List(s"test")) should be(s"test")
     }
   }
 }
