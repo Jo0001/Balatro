@@ -1,7 +1,7 @@
-package de.htwg.se.balatro.ui
+package de.htwg.se.balatro.view
 
-import de.htwg.se.balatro.Action
-import de.htwg.se.balatro.Action.*
+import de.htwg.se.balatro.util.Action.*
+import de.htwg.se.balatro.util.Action
 
 class Parser {
 

@@ -1,4 +1,4 @@
-package de.htwg.se.balatro
+package de.htwg.se.balatro.model
 
 case class Player(money: Int) {
 }

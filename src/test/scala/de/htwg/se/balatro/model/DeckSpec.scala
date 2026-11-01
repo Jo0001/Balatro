@@ -1,7 +1,8 @@
-package de.htwg.se.balatro
+package de.htwg.se.balatro.model
 
-import org.scalatest.wordspec.AnyWordSpec
+import de.htwg.se.balatro.model.Deck
 import org.scalatest.matchers.should.Matchers.*
+import org.scalatest.wordspec.AnyWordSpec
 
 import scala.util.Random
 

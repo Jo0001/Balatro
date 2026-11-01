@@ -1,9 +1,10 @@
-package de.htwg.se.balatro.ui
+package de.htwg.se.balatro.view
 
-import de.htwg.se.balatro.CardColor.*
-import de.htwg.se.balatro.CardSymbol.*
-import de.htwg.se.balatro.ui.TUI
-import de.htwg.se.balatro.{Card, CardSymbol, CardRank}
+import de.htwg.se.balatro.util.CardColor.*
+import de.htwg.se.balatro.util.CardSymbol.*
+import de.htwg.se.balatro.model.{Card, CardRank}
+import de.htwg.se.balatro.util.CardSymbol
+import de.htwg.se.balatro.view.TUI
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 

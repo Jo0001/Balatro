@@ -1,8 +1,9 @@
-package de.htwg.se.balatro.ui
+package de.htwg.se.balatro.view
 
-import org.scalatest.wordspec.AnyWordSpec
+import de.htwg.se.balatro.util.Action.*
+import de.htwg.se.balatro.view.Parser
 import org.scalatest.matchers.should.Matchers.*
-import de.htwg.se.balatro.Action.*
+import org.scalatest.wordspec.AnyWordSpec
 
 class ParserSpec extends AnyWordSpec {
   "Parser" should {

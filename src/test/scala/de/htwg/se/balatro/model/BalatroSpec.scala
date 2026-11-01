@@ -1,7 +1,9 @@
-package de.htwg.se.balatro
+package de.htwg.se.balatro.model
 
+import de.htwg.se.balatro.model.Card
+import de.htwg.se.balatro.util.{CardColor, CardSymbol}
+import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatest.matchers.should.Matchers._
 
 class BalatroSpec extends AnyWordSpec {
   "Balatro" should {

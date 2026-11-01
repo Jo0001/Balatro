@@ -1,4 +1,7 @@
-package de.htwg.se.balatro
+package de.htwg.se.balatro.model
+
+import de.htwg.se.balatro.model
+import de.htwg.se.balatro.util.CardSymbol
 
 import scala.util.Random
 

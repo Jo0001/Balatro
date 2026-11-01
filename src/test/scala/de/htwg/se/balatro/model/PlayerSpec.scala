@@ -1,7 +1,8 @@
-package de.htwg.se.balatro
+package de.htwg.se.balatro.model
 
+import de.htwg.se.balatro.model.Player
+import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatest.matchers.should.Matchers._
 
 class PlayerSpec extends AnyWordSpec {
   "Player" should {

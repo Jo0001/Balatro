@@ -1,8 +1,9 @@
-package de.htwg.se.balatro.ui
+package de.htwg.se.balatro.view
 
-import de.htwg.se.balatro.CardColor.*
-import de.htwg.se.balatro.CardSymbol.*
-import de.htwg.se.balatro.{Card, CardColor, CardSymbol, Game}
+import de.htwg.se.balatro.util.CardColor.*
+import de.htwg.se.balatro.util.CardSymbol.*
+import de.htwg.se.balatro.model.{Card, Game}
+import de.htwg.se.balatro.util.{CardColor, CardSymbol}
 
 class TUI {
   //all parts are already tested individually

@@ -1,6 +1,6 @@
-package de.htwg.se.balatro
+package de.htwg.se.balatro.model
 
-import de.htwg.se.balatro.PokerHandTypes.*
+import PokerHandTypes.*
 
 case class PokerHands(hand: PokerHandTypes, validCards: List[Int], sortedCards: List[Card]) {
   val chips = hand match

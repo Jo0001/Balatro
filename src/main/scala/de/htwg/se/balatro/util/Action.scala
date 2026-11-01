@@ -1,4 +1,4 @@
-package de.htwg.se.balatro
+package de.htwg.se.balatro.util
 
 enum Action:
   case Select(indices: List[Int])

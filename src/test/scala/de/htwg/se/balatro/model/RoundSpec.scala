@@ -1,6 +1,8 @@
-package de.htwg.se.balatro
+package de.htwg.se.balatro.model
 
-import de.htwg.se.balatro.BlindType.*
+import BlindType.*
+import de.htwg.se.balatro.model.{Blind, Card, Deck, PokerHands, Round}
+import de.htwg.se.balatro.util.CardSymbol
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 

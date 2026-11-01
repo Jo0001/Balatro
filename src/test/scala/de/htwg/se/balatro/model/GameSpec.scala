@@ -1,5 +1,6 @@
-package de.htwg.se.balatro
+package de.htwg.se.balatro.model
 
+import de.htwg.se.balatro.model.Game
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 

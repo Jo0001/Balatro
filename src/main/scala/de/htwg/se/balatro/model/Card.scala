@@ -1,4 +1,6 @@
-package de.htwg.se.balatro
+package de.htwg.se.balatro.model
+
+import de.htwg.se.balatro.util.{CardColor, CardSymbol}
 
 case class Card(symbol: CardSymbol, rank: CardRank):
   val value = rank match

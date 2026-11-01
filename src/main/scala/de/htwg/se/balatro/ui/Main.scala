@@ -1,9 +1,10 @@
 package de.htwg.se.balatro.ui
 
-import de.htwg.se.balatro.Action.UnknownCommand
+import de.htwg.se.balatro.util.Action.UnknownCommand
+import de.htwg.se.balatro.model.Game
 
 import scala.io.StdIn.readLine
-import de.htwg.se.balatro.Game
+import de.htwg.se.balatro.view.{Parser, TUI}
 
 import scala.annotation.tailrec
 
