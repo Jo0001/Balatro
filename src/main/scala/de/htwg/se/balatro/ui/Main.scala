@@ -1,5 +1,6 @@
 package de.htwg.se.balatro.ui
 
+import de.htwg.se.balatro.controller.Controller
 import de.htwg.se.balatro.util.Action.UnknownCommand
 import de.htwg.se.balatro.model.Game
 
@@ -12,6 +13,7 @@ import scala.annotation.tailrec
 // $COVERAGE-OFF$
 @main def launchMain(): Unit = {
   val tui = TUI()
+  val controller = Controller()
   val parser = Parser()
   val game = Game.start()
   println(tui.createRender(game))
