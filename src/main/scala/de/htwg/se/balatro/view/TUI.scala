@@ -1,5 +1,6 @@
 package de.htwg.se.balatro.view
 
+import de.htwg.se.balatro.controller.Controller
 import de.htwg.se.balatro.util.CardColor.*
 import de.htwg.se.balatro.util.CardSymbol.*
 import de.htwg.se.balatro.model.{Card, Game}
@@ -9,7 +10,7 @@ import de.htwg.se.balatro.util.{CardColor, CardSymbol, Observer}
 import scala.annotation.tailrec
 import scala.io.StdIn.readLine
 
-class TUI extends Observer{
+class TUI(controller: Controller) extends Observer {
   //all parts are already tested individually
   // $COVERAGE-OFF$
   def createRender(game: Game): String = {
@@ -88,35 +89,31 @@ class TUI extends Observer{
       case BLACK => Console.BLACK + Console.WHITE_B
     }
   }
-  
-  def update(): Unit = {
-    
-  }
-  
-  def run(): Unit = {
-    val parser = Parser()
-    val game = Game.start()
-    println(createRender(game))
+
+  override def update(): Unit = {
+    println(createRender(controller.game))
     print(">")
-    runloop(parser, game)
   }
+
+  val parser = Parser()
+
+  def run(): Unit = {
+    update() //initial render
+    runloop()
+  }
+
 
   @tailrec
-  final def runloop(parser: Parser, game: Game): Game =
-
+  final def runloop(): Unit =
     val line = readLine()
-    val action = parser.parse(line)
-    if (action == UnknownCommand) {
-      println(createCommandErrorMessage(line))
-      print(">")
-      runloop(parser, game)
-    } else {
-      val newGame = game.handle(action)
-      println(createRender(newGame))
-      print(">")
-      runloop(parser, newGame)
+    parser.parse(line) match {
+      case UnknownCommand =>
+        println(createCommandErrorMessage(line))
+        print(">")
+      case action =>
+        controller.handle(action)
     }
-  // $COVERAGE-ON$
-  }
+    runloop()
+}
   
 

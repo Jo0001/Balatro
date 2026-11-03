@@ -4,17 +4,21 @@ import de.htwg.se.balatro.model.Game
 import de.htwg.se.balatro.util.{Action, Observable}
 import de.htwg.se.balatro.util.Action.*
 
-class Controller extends Observable {
+class Controller(startGame: Game = Game.start()) extends Observable {
+  
+  var currentGame: Game = startGame //todo avoid var
 
-  val game = Game.start()
+  def game: Game = currentGame//todo avoid Game from Lower model layer
 
   def handle(action: Action): Unit = {
-    action match {
-      case Discard => game.copy(currentRound = game.currentRound.discard()); notifyObservers()
-      case Play => game.copy(currentRound = game.currentRound.play()); notifyObservers()
-      case Select(indices) => game.copy(currentRound = game.currentRound.select(indices.map(e => e - 1))); notifyObservers() //internal its 0 based but user uses 1 based indices
-      case _ => println(s"Simulating Game Action $action"); this
+    currentGame = action match {
+      case Discard => currentGame.copy(currentRound = currentGame.currentRound.discard())
+      case Play => currentGame.copy(currentRound = currentGame.currentRound.play())
+      //internal its 0 based but user uses 1 based indices
+      case Select(indices) => currentGame.copy(currentRound = currentGame.currentRound.select(indices.map(e => e - 1)))
+      case _ => currentGame //todo OpenMenu (and everything else) does not change the model yet
     }
+    notifyObservers()
   }
 
 }
