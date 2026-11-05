@@ -27,13 +27,13 @@ class ParserSpec extends AnyWordSpec {
   "Parser" should {
     "parse the select command (no matter of spaces / case sensitivity) with one argument" in {
       val parser = Parser()
-      parser.parse("select   1  ") should be(Select(List(1)))
+      parser.parse("select   1  ") should be(Select(List(0)))
     }
   }
   "Parser" should {
     "parse the select command (no matter of spaces / case sensitivity) with multiple arguments" in {
       val parser = Parser()
-      parser.parse("select   1  3 5 ") should be(Select(List(1, 3, 5)))
+      parser.parse("select   1  3 5 ") should be(Select(List(0, 2, 4)))
     }
   }
   "Parser" should {
