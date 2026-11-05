@@ -7,6 +7,7 @@ import scala.util.Random
 case class Game(player: Player = Player(0),
                 currentRound: Round,
                 roundCounter: Int = 1) {
+  val ante = 8
 }
 
 object Game:
