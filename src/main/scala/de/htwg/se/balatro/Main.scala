@@ -1,4 +1,4 @@
-package de.htwg.se.balatro.ui
+package de.htwg.se.balatro
 
 import de.htwg.se.balatro.controller.Controller
 import de.htwg.se.balatro.view.TUI
@@ -6,6 +6,5 @@ import de.htwg.se.balatro.view.TUI
 @main def launchMain(): Unit = {
   val controller = Controller()
   val tui = TUI(controller)
-  controller.add(tui)
   tui.run()
 }

@@ -11,6 +11,9 @@ import scala.annotation.tailrec
 import scala.io.StdIn.readLine
 
 class TUI(controller: Controller) extends Observer {
+
+  controller.add(this)
+  
   //all parts are already tested individually
   // $COVERAGE-OFF$
   def createRender(game: Game): String = {
