@@ -1,8 +1,6 @@
 package de.htwg.se.balatro.model
 
-import de.htwg.se.balatro.util.Action.*
-import BlindType.*
-import de.htwg.se.balatro.util.Action
+import de.htwg.se.balatro.model.BlindType.*
 
 import scala.util.Random
 
