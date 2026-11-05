@@ -24,7 +24,7 @@ class Parser {
       if (numbers.isEmpty) {
         UnknownCommand
       } else {
-        Select(numbers)
+        Select(numbers.map(_ - 1))
       }
     } else {
       UnknownCommand
