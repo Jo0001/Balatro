@@ -12,6 +12,33 @@ class RoundSpec extends AnyWordSpec {
   val blind = Blind(Small, 3, 100, 1)
 
   "Round" should {
+    "have the correct play hands amount" in {
+      val round = Round(List(), blind = blind)
+      round.remainingPlays should be(4)
+    }
+  }
+  "Round" should {
+    "have the correct discard hands amount" in {
+      val round = Round(List(), blind = blind)
+      round.remainingDiscards should be(4)
+    }
+  }
+
+  "Round" should {
+    "have a fixed maxPlays amount" in {
+      val round = Round(List(), blind = blind)
+      round.maxPlays should be(4)
+    }
+  }
+  "Round" should {
+    "have a fixed maxDiscards amount" in {
+      val round = Round(List(), blind = blind)
+      round.maxDiscards should be(4)
+    }
+  }
+
+
+  "Round" should {
     "have a select method to select single cards" in {
       val handcards = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING))
       val round = Round(handcards, blind = blind)

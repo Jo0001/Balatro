@@ -15,7 +15,6 @@ class ControllerSpec extends AnyWordSpec {
       })
 
       controller.handle(Select(List(1)))
-      
       updateCount shouldBe 1
     }
   }
