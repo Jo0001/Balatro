@@ -7,6 +7,10 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: In
   val maxPlays = 4
   val maxDiscards = 4
 
+  def remainingPlays: Int = maxPlays - handCounter
+
+  def remainingDiscards: Int = maxDiscards - discardCounter
+
   def currentHand(): PokerHands =
     if (selectedCards(handcards, selected).nonEmpty) {
       PokerHands(selectedCards(handcards, selected))

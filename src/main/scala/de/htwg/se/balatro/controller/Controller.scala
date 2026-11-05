@@ -8,15 +8,16 @@ class Controller(startGame: Game = Game.start()) extends Observable {
 
   var currentGame: Game = startGame //todo avoid var
 
-  def game: GameSnapshot = GameSnapshot(
-    blindName = currentGame.currentRound.blind.toString,
+  def gameSnapshot: GameSnapshot = GameSnapshot(
+    blindName = currentGame.currentRound.blind.blindType.toString,
     score = currentGame.currentRound.score,
     goal = currentGame.currentRound.blind.goal,
     reward = currentGame.currentRound.blind.reward,
     ante = currentGame.currentRound.blind.ante,
+    maxAnte = currentGame.ante,
     roundCounter = currentGame.roundCounter,
-    hands = currentGame.currentRound.handCounter,
-    discards = currentGame.currentRound.discardCounter,
+    hands = currentGame.currentRound.remainingPlays,
+    discards = currentGame.currentRound.remainingDiscards,
     chips = currentGame.currentRound.currentHand().chips,
     multiplier = currentGame.currentRound.currentHand().mult,
     chipsTotal = currentGame.currentRound.currentHand().chipsTotal,

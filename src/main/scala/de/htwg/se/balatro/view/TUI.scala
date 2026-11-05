@@ -12,7 +12,7 @@ import scala.io.StdIn.readLine
 class TUI(controller: Controller) extends Observer {
 
   def createRender(gameSnapshot: GameSnapshot): String = {
-    val statusbar = createStatusbar(gameSnapshot.score, gameSnapshot.goal, gameSnapshot.reward, gameSnapshot.ante, gameSnapshot.roundCounter)
+    val statusbar = createStatusbar(gameSnapshot.score, gameSnapshot.goal, gameSnapshot.reward, gameSnapshot.ante, gameSnapshot.maxAnte, gameSnapshot.roundCounter)
     val remaining = createRemaining(gameSnapshot.discards, gameSnapshot.hands)
     val livescore = createLiveScore(gameSnapshot.chips, gameSnapshot.multiplier, gameSnapshot.handName)
     s"${createTitle(gameSnapshot.blindName, statusbar.length, Console.BLUE_B)}\n$statusbar\n${useSpace(statusbar.length, List(livescore, remaining))}\n\n${createHandView(statusbar.length, gameSnapshot.handcards)}\n\n${createMenu()}"
@@ -23,8 +23,8 @@ class TUI(controller: Controller) extends Observer {
     " " * spaces + Console.UNDERLINED + color + title + Console.RESET //use space x-times and add title
   }
 
-  def createStatusbar(current: Int, goal: Int, reward: Int, ante: Int, round: Int): String =
-    s"<Score $current/$goal> || <Reward $reward$$> || <Ante $ante/8> || <Round $round>"
+  def createStatusbar(current: Int, goal: Int, reward: Int, ante: Int, maxAnte: Int, round: Int): String =
+    s"<Score $current/$goal> || <Reward $reward$$> || <Ante $ante/$maxAnte> || <Round $round>"
 
   def createLiveScore(chips: Int, mult: Int, name: String): String =
     s"${Console.BLUE_B}$chips${Console.RESET}x${Console.RED_B}$mult${Console.RESET} $name"
@@ -88,7 +88,7 @@ class TUI(controller: Controller) extends Observer {
   }
 
   override def update(): Unit = {
-    println(createRender(controller.game))
+    println(createRender(controller.gameSnapshot))
     print(">")
   }
 
