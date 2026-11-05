@@ -4,7 +4,7 @@ import de.htwg.se.balatro.controller.Controller
 import de.htwg.se.balatro.util.CardColor.*
 import de.htwg.se.balatro.util.CardSymbol.*
 import de.htwg.se.balatro.model.{Card, CardRank}
-import de.htwg.se.balatro.util.CardSymbol
+import de.htwg.se.balatro.util.{CardColor, CardSnapshot, CardSymbol}
 import de.htwg.se.balatro.view.TUI
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
@@ -15,7 +15,7 @@ class TUISpec extends AnyWordSpec {
     "have a title with correct indentation" in {
       val title = "Small Blind"
       val tui = TUI(controller)
-      val fullTitle = tui.createTitle(title, "<Score 20/300> || <Reward 3$> || <Ante 1/8> || <Round 1>", Console.RESET)
+      val fullTitle = tui.createTitle(title, "<Score 20/300> || <Reward 3$> || <Ante 1/8> || <Round 1>".length, Console.RESET)
       val indentationSpaces = fullTitle.count(_ == ' ') - title.count(_ == ' ')
       indentationSpaces should be(23)
     }
@@ -23,7 +23,7 @@ class TUISpec extends AnyWordSpec {
   "TUI" should {
     "have a statusbar" in {
       val tui = TUI(controller)
-      val bar = tui.createStatusbar(20, 300, 3, 1, 1)
+      val bar = tui.createStatusbar(20, 300, 3, 1, 8, 1)
       bar should be("<Score 20/300> || <Reward 3$> || <Ante 1/8> || <Round 1>")
     }
   }
@@ -100,26 +100,28 @@ class TUISpec extends AnyWordSpec {
   "TUI" should {
     "have a printable Yellow Diamonds Card" in {
       val tui = TUI(controller)
-      val card = Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE)
-      tui.createCardRender(card, false) should be(s"${Console.YELLOW}Ace♦${Console.RESET}")
+      val cardSnapshot = CardSnapshot(selected = false, symbol = CardSymbol.DIAMONDS, color = CardColor.YELLOW, rank = "Ace")
+      tui.createCardRender(cardSnapshot) should be(s"${Console.YELLOW}Ace♦${Console.RESET}")
     }
   }
   "TUI" should {
     "have a printable selected Yellow Diamonds Card" in {
       val tui = TUI(controller)
-      val card = Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE)
-      tui.createCardRender(card, true) should be(s"[${Console.YELLOW}Ace♦${Console.RESET}]")
+      val cardSnapshot = CardSnapshot(selected = true, symbol = CardSymbol.DIAMONDS, color = CardColor.YELLOW, rank = "Ace")
+      tui.createCardRender(cardSnapshot) should be(s"[${Console.YELLOW}Ace♦${Console.RESET}]")
     }
   }
 
   "TUI" should {
     "have a printable deck render" in {
       val tui = TUI(controller)
-      val cards = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING))
-      val selectedIndices = List(0)
-      val bar = tui.createStatusbar(20, 300, 3, 1, 1)
+      val cards = List(
+        CardSnapshot(selected = true, symbol = CardSymbol.DIAMONDS, color = CardColor.YELLOW, rank = "Ace"),
+        CardSnapshot(selected = false, symbol = CardSymbol.HEARTS, color = CardColor.RED, rank = "King")
+      )
+      val bar = tui.createStatusbar(20, 300, 3, 1, 8, 1)
       //yes those spaces have to be there!
-      tui.createHandView(bar, cards, selectedIndices) should be(s"[${Console.YELLOW}Ace♦${Console.RESET}]                                             ${Console.RED}King♥${Console.RESET}")
+      tui.createHandView(bar.length, cards) should be(s"[${Console.YELLOW}Ace♦${Console.RESET}]                                             ${Console.RED}King♥${Console.RESET}")
     }
   }
 
@@ -132,7 +134,7 @@ class TUISpec extends AnyWordSpec {
   "TUI" should {
     "have remaining hands/discards view" in {
       val tui = TUI(controller)
-      tui.createRemaining(2, 5, 3, 5) should be(s"Hands:${Console.BLUE_B}2${Console.RESET} Discards:${Console.RED_B}3${Console.RESET}")
+      tui.createRemaining(3, 2) should be(s"Hands:${Console.BLUE_B}2${Console.RESET} Discards:${Console.RED_B}3${Console.RESET}")
     }
   }
   "TUI" should {
