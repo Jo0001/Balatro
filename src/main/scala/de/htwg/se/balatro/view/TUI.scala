@@ -3,27 +3,24 @@ package de.htwg.se.balatro.view
 import de.htwg.se.balatro.controller.Controller
 import de.htwg.se.balatro.util.CardColor.*
 import de.htwg.se.balatro.util.CardSymbol.*
-import de.htwg.se.balatro.model.{Card, Game}
 import de.htwg.se.balatro.util.Action.UnknownCommand
-import de.htwg.se.balatro.util.{CardColor, CardSymbol, Observer}
+import de.htwg.se.balatro.util.*
 
 import scala.annotation.tailrec
 import scala.io.StdIn.readLine
 
 class TUI(controller: Controller) extends Observer {
-  //all parts are already tested individually
-  // $COVERAGE-OFF$
-  def createRender(game: Game): String = {
-    val statusbar = createStatusbar(game.currentRound.score, game.currentRound.blind.goal, game.currentRound.blind.reward, game.currentRound.blind.ante, game.roundCounter)
-    val remaining = createRemaining(game.currentRound.discardCounter, game.currentRound.maxDiscards, game.currentRound.handCounter, game.currentRound.maxPlays)
-    val livescore = createLiveScore(game.currentRound.currentHand().chipsTotal, game.currentRound.currentHand().mult, game.currentRound.currentHand().name)
-    s"${createTitle(game.currentRound.blind.blindType.toString, statusbar, Console.BLUE_B)}\n$statusbar\n${useSpace(statusbar.length, List(livescore, remaining))}\n\n${createHandView(statusbar, game.currentRound.handcards, game.currentRound.selected)}\n\n${createMenu()}"
-  }
-  // $COVERAGE-ON$
 
-  def createTitle(title: String, statusbar: String, color: String): String = {
-    val spaces = statusbar.length / 2 - title.length / 2
-    " " * spaces + Console.UNDERLINED + color + title + Console.RESET //use space x times and add title
+  def createRender(gameSnapshot: GameSnapshot): String = {
+    val statusbar = createStatusbar(gameSnapshot.score, gameSnapshot.goal, gameSnapshot.reward, gameSnapshot.ante, gameSnapshot.roundCounter)
+    val remaining = createRemaining(gameSnapshot.discards, gameSnapshot.hands)
+    val livescore = createLiveScore(gameSnapshot.chips, gameSnapshot.multiplier, gameSnapshot.handName)
+    s"${createTitle(gameSnapshot.blindName, statusbar.length, Console.BLUE_B)}\n$statusbar\n${useSpace(statusbar.length, List(livescore, remaining))}\n\n${createHandView(statusbar.length, gameSnapshot.handcards)}\n\n${createMenu()}"
+  }
+
+  def createTitle(title: String, statusbarLength: Int, color: String): String = {
+    val spaces = statusbarLength / 2 - title.length / 2
+    " " * spaces + Console.UNDERLINED + color + title + Console.RESET //use space x-times and add title
   }
 
   def createStatusbar(current: Int, goal: Int, reward: Int, ante: Int, round: Int): String =
@@ -32,8 +29,8 @@ class TUI(controller: Controller) extends Observer {
   def createLiveScore(chips: Int, mult: Int, name: String): String =
     s"${Console.BLUE_B}$chips${Console.RESET}x${Console.RED_B}$mult${Console.RESET} $name"
 
-  def createRemaining(discardCounter: Int, maxDiscards: Int, handCounter: Int, maxPlays: Int): String =
-    s"Hands:${Console.BLUE_B}${maxPlays - handCounter}${Console.RESET} Discards:${Console.RED_B}${maxDiscards - discardCounter}${Console.RESET}"
+  def createRemaining(discardCounter: Int, handCounter: Int): String =
+    s"Hands:${Console.BLUE_B}$handCounter${Console.RESET} Discards:${Console.RED_B}$discardCounter${Console.RESET}"
 
   def createMenu(): String =
     s"""${Console.UNDERLINED}Menu${Console.RESET}
@@ -44,14 +41,14 @@ class TUI(controller: Controller) extends Observer {
        |Use 'discard' to discard your selected cards
        |Use 'menu' to open the settings and exit the game""".stripMargin
 
-  def createHandView(statusbar: String, cards: List[Card], selectedIndices: List[Int]): String =
-    useSpace(statusbar.length, cards.zipWithIndex.map(card => createCardRender(card._1, selectedIndices.contains(card._2))))
+  def createHandView(statusbarLength: Int, cardSnapshots: List[CardSnapshot]): String =
+    useSpace(statusbarLength, cardSnapshots.map(card => createCardRender(card)))
 
-  def createCardRender(card: Card, selected: Boolean): String =
-    if (selected) {
-      s"[${color2ConsoleColor(card.color)}${card.rank.toString.toLowerCase.capitalize}${symbol2String(card.symbol)}${Console.RESET}]"
+  def createCardRender(cardSnapshot: CardSnapshot): String =
+    if (cardSnapshot.selected) {
+      s"[${color2ConsoleColor(cardSnapshot.color)}${cardSnapshot.rank.toLowerCase.capitalize}${symbol2String(cardSnapshot.symbol)}${Console.RESET}]"
     } else {
-      s"${color2ConsoleColor(card.color)}${card.rank.toString.toLowerCase.capitalize}${symbol2String(card.symbol)}${Console.RESET}"
+      s"${color2ConsoleColor(cardSnapshot.color)}${cardSnapshot.rank.toLowerCase.capitalize}${symbol2String(cardSnapshot.symbol)}${Console.RESET}"
     }
 
   def createCommandErrorMessage(misspelled: String): String =
