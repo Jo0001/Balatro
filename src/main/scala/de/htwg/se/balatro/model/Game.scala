@@ -8,6 +8,18 @@ case class Game(player: Player = Player(0),
                 currentRound: Round,
                 roundCounter: Int = 1) {
   val ante = 8
+
+  def select(indices: List[Int]): Game = {
+  copy(currentRound = currentRound.select(indices))
+  }
+
+  def discard(): Game = {
+  copy(currentRound = currentRound.discard())
+  }
+
+  def play() : Game = {
+  copy(currentRound = currentRound.play())
+  }
 }
 
 object Game:
