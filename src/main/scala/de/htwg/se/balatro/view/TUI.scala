@@ -11,6 +11,8 @@ import scala.io.StdIn.readLine
 
 class TUI(controller: Controller) extends Observer {
 
+  controller.add(this)
+
   def createRender(gameSnapshot: GameSnapshot): String = {
     val statusbar = createStatusbar(gameSnapshot.score, gameSnapshot.goal, gameSnapshot.reward, gameSnapshot.ante, gameSnapshot.roundCounter)
     val remaining = createRemaining(gameSnapshot.discards, gameSnapshot.hands)
