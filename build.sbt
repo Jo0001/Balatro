@@ -9,4 +9,5 @@ lazy val root = rootProject
     ),
     coverageExcludedPackages :=
       "de\\.htwg\\.se\\.balatro\\.legacy\\..*",
+    coverageExcludedFiles := ".*Main",
   )
