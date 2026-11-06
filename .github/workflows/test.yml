@@ -53,6 +53,21 @@ jobs:
           paths=$(find . -name scoverage.xml | paste -sd, -)
           echo "paths=${paths}" >> "$GITHUB_OUTPUT"
 
+      - name: Locate Cobertura report
+        id: cobertura
+        if: always()
+        run: |
+          files=$(find . -path '*coverage-report*' -name cobertura.xml | paste -sd' ' -)
+          echo "files=${files}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload Coverage to Coveralls
+        if: steps.cobertura.outputs.files != ''
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
+          files: ${{ steps.cobertura.outputs.files }}
+          format: cobertura
+
       - name: SonarQube Cloud Scan
         if: steps.scoverage.outputs.paths != ''
         uses: SonarSource/sonarqube-scan-action@v8
