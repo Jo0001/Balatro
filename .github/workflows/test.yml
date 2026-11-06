@@ -50,7 +50,7 @@ jobs:
         id: scoverage
         if: always()
         run: |
-          paths=$(find . -name scoverage-sonar.xml | paste -sd, -)
+          paths=$(find . -name scoverage.xml | paste -sd, -)
           echo "paths=${paths}" >> "$GITHUB_OUTPUT"
 
       - name: SonarQube Cloud Scan
