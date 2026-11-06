@@ -89,6 +89,8 @@ class TUI(controller: Controller) extends Observer {
     }
   }
 
+  // $COVERAGE-OFF$
+
   override def update(): Unit = {
     println(createRender(controller.gameSnapshot))
     print(">")
@@ -114,5 +116,7 @@ class TUI(controller: Controller) extends Observer {
     }
     runloop()
 }
+
+// $COVERAGE-ON$
   
 
