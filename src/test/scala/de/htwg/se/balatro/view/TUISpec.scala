@@ -8,6 +8,7 @@ import de.htwg.se.balatro.util.{CardColor, CardSnapshot, CardSymbol}
 import de.htwg.se.balatro.view.TUI
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
+import java.io.{BufferedReader, StringReader, ByteArrayOutputStream, PrintStream}
 
 class TUISpec extends AnyWordSpec {
   val controller = Controller()
@@ -151,4 +152,5 @@ class TUISpec extends AnyWordSpec {
       tui.useSpace(20, List(s"test")) should be(s"test")
     }
   }
+
 }
