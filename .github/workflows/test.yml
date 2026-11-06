@@ -10,6 +10,8 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
     steps:
       - uses: actions/checkout@v5.1.0
         with:
@@ -87,8 +89,6 @@ jobs:
 
       - name: Run Stryker4s
         run: sbt stryker
-        env:
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
       - name: Upload HTML report
         if: always()
