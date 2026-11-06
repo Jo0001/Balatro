@@ -24,7 +24,7 @@ jobs:
       - uses: sbt/setup-sbt@ecad189dd245444b9ae0a0cd5922fd938b88906f # v1
 
       - name: Build, Tests and Coverage
-        run: sbt "cleanFull; clean; coverage; testFull; coverageReport; coveralls"
+        run: sbt "cleanFull; clean; coverage; testFull; coverageReport"
 
       - name: Test Report
         if: always()
