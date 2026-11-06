@@ -4,11 +4,10 @@ import de.htwg.se.balatro.controller.Controller
 import de.htwg.se.balatro.util.CardColor.*
 import de.htwg.se.balatro.util.CardSymbol.*
 import de.htwg.se.balatro.model.{Card, CardRank}
-import de.htwg.se.balatro.util.{CardColor, CardSnapshot, CardSymbol}
+import de.htwg.se.balatro.util.{CardColor, CardSnapshot, CardSymbol, GameSnapshot}
 import de.htwg.se.balatro.view.TUI
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
-import java.io.{BufferedReader, StringReader, ByteArrayOutputStream, PrintStream}
 
 class TUISpec extends AnyWordSpec {
   val controller = Controller()
@@ -150,6 +149,44 @@ class TUISpec extends AnyWordSpec {
       val tui = TUI(controller)
       //yes those spaces have to be there!
       tui.useSpace(20, List(s"test")) should be(s"test")
+    }
+  }
+
+  private val snapshot = GameSnapshot(
+    blindName = "Small", score = 50, goal = 100, reward = 3, ante = 1, maxAnte = 8,
+    roundCounter = 2, hands = 3, discards = 2, chips = 10, multiplier = 2,
+    chipsTotal = 20, handName = "Pair",
+    handcards = List(
+      CardSnapshot(selected = false, rank = "ACE", color = CardColor.BLACK, symbol = CardSymbol.SPADES),
+      CardSnapshot(selected = true, rank = "KING", color = CardColor.RED, symbol = CardSymbol.HEARTS)
+    )
+  )
+
+  // ---------- createRender ----------
+  "TUI.createRender" should {
+    val tui = TUI(controller)
+    val rendered = tui.createRender(snapshot)
+
+    "Blind-Namen und Statusleiste mit allen Werten enthalten" in {
+      rendered should include("<Score 50/100>")
+      rendered should include("<Reward 3$>")
+      rendered should include("<Ante 1/8>")
+      rendered should include("<Round 2>")
+    }
+
+
+    "das Menü enthalten" in {
+      rendered should include("Menu")
+      rendered should include("'play'")
+      rendered should include("'discard'")
+    }
+
+    "auch ohne Handkarten nicht fehlschlagen" in {
+      noException should be thrownBy tui.createRender(snapshot.copy(handcards = List()))
+    }
+
+    "für denselben Snapshot immer dasselbe Ergebnis liefern" in {
+      tui.createRender(snapshot) shouldBe tui.createRender(snapshot)
     }
   }
 
