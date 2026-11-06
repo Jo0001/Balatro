@@ -84,3 +84,15 @@ jobs:
           name: scoverage-report
           path: "**/scoverage-report"
           if-no-files-found: error
+
+      - name: Run Stryker4s
+        run: sbt stryker
+        env:
+          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
+
+      - name: Upload HTML report
+        if: always()
+        uses: actions/upload-artifact@v5.0.0
+        with:
+          name: stryker-report
+          path: target/stryker4s-report/
