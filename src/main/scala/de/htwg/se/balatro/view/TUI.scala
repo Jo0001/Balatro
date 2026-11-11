@@ -90,7 +90,7 @@ class TUI(controller: Controller) extends Observer {
   }
 
   // $COVERAGE-OFF$
-
+  @SuppressWarnings(Array("stryker4s.mutation.StringLiteral"))
   override def update(): Unit = {
     println(createRender(controller.gameSnapshot))
     print(">")
@@ -103,7 +103,7 @@ class TUI(controller: Controller) extends Observer {
     runloop()
   }
 
-
+  @SuppressWarnings(Array("stryker4s.mutation.StringLiteral"))
   @tailrec
   final def runloop(): Unit =
     val line = readLine()
