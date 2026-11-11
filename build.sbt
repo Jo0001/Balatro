@@ -4,7 +4,7 @@ lazy val root = rootProject
   .settings(
     name := "Balatro",
     libraryDependencies ++= Seq(
-      "org.scalactic" %% "scalactic" % "3.2.14",
+      "org.scalactic" %% "scalactic" % "3.2.20",
       "org.scalatest" %% "scalatest" % "3.2.14" % "test"
     ),
     coverageExcludedPackages :=
