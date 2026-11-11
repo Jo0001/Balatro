@@ -33,7 +33,7 @@ class ParserSpec extends AnyWordSpec {
   "Parser" should {
     "parse the select command (no matter of spaces / case sensitivity) with multiple arguments" in {
       val parser = Parser()
-      parser.parse("select   1  3 5 ") should be(Select(List(0, 2, 4)))
+      parser.parse("select   1  3 5 8") should be(Select(List(0, 2, 4, 7)))
     }
   }
   "Parser" should {
@@ -43,6 +43,7 @@ class ParserSpec extends AnyWordSpec {
       parser.parse("play 1 2") should be(UnknownCommand)
       parser.parse("discard 1 2") should be(UnknownCommand)
       parser.parse("select 99") should be(UnknownCommand)
+      parser.parse("select 12") should be(UnknownCommand)
       parser.parseSelect("select") should be(UnknownCommand) //with normal parse never reachable
     }
   }
