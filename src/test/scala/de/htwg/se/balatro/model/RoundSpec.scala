@@ -54,9 +54,9 @@ class RoundSpec extends AnyWordSpec {
   }
   "Round" should {
     "have a select method to select multiple cards" in {
-      val handcards = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING))
+      val handcards = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING))
       val round = Round(handcards, blind = blind)
-      round.select(List(0, 1)) should be(Round(handcards = handcards, selected = List(1, 0), blind = blind))
+      round.select(List(0, 1, 2, 3, 4)) should be(Round(handcards = handcards, selected = List(4, 3, 2, 1, 0), blind = blind))
     }
   }
   "Round" should {
@@ -98,6 +98,13 @@ class RoundSpec extends AnyWordSpec {
     }
   }
   "Round" should {
+    "have a method to discard cards which does nothing in illegal state" in {
+      val handcards = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING))
+      val round = Round(handcards, selected = List(1), discardCounter = 5, blind = blind)
+      round.discard() should be(Round(handcards = handcards, selected = List(1), discardCounter = 5, blind = blind))
+    }
+  }
+  "Round" should {
     "have a method to play the selected cards with scoring and handcard increment" in {
       val handcards = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING))
       val rand = Random(123)
@@ -119,6 +126,13 @@ class RoundSpec extends AnyWordSpec {
       val handcards = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING))
       val round = Round(handcards, selected = List(0), blind = blind, handCounter = 4)
       round.play() should be(Round(handcards = handcards, selected = List(0), blind = blind, handCounter = 4))
+    }
+  }
+  "Round" should {
+    "have a method to play which does nothing turncounter is in illegal state" in {
+      val handcards = List(Card(symbol = CardSymbol.DIAMONDS, rank = CardRank.ACE), Card(symbol = CardSymbol.HEARTS, rank = CardRank.KING))
+      val round = Round(handcards, selected = List(0), blind = blind, handCounter = 5)
+      round.play() should be(Round(handcards = handcards, selected = List(0), blind = blind, handCounter = 5))
     }
   }
   "Round" should {
