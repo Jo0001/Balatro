@@ -63,7 +63,7 @@ jobs:
           echo "files=${files}" >> "$GITHUB_OUTPUT"
 
       - name: Upload Coverage to Coveralls
-        if: steps.cobertura.outputs.files != ''
+        if: github.event_name != 'pull_request' && steps.cobertura.outputs.files != ''
         uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
@@ -71,7 +71,7 @@ jobs:
           format: cobertura
 
       - name: SonarQube Cloud Scan
-        if: steps.scoverage.outputs.paths != ''
+        if: github.event_name != 'pull_request' && steps.scoverage.outputs.paths != ''
         uses: SonarSource/sonarqube-scan-action@v8
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -80,7 +80,7 @@ jobs:
             -Dsonar.scala.coverage.reportPaths=${{ steps.scoverage.outputs.paths }}   
 
       - name: Upload Coverage-Report
-        if: always()
+        if: github.event_name != 'pull_request'
         uses: actions/upload-artifact@v5.0.0
         with:
           name: scoverage-report
@@ -91,7 +91,7 @@ jobs:
         run: sbt stryker
 
       - name: Upload HTML report
-        if: always()
+        if: github.event_name != 'pull_request'
         uses: actions/upload-artifact@v5.0.0
         with:
           name: stryker-report
