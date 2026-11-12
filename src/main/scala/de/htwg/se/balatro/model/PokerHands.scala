@@ -39,10 +39,7 @@ case class PokerHands(hand: PokerHandTypes, validCards: List[Int], sortedCards: 
     case HIGH_CARD => "High Card"
     case EMPTY => ""
 
-  val cardValues =
-    (for index <- validCards
-         if index >= 0 && index < sortedCards.length
-    yield sortedCards(index).value).sum
+  val cardValues = validCards.map(i => sortedCards(i).value).sum
 
   val chipsTotal: Int = cardValues + chips
   val scoreTotal: Int = chipsTotal * mult
@@ -82,15 +79,14 @@ object PokerHands:
         } else {
           return (THREE_OF_A_KIND, List(2, 3, 4)) //three of a kind case 3
         }
-      } else if ((length == 4 && (countFirst == 2 && countLast == 2))
-        || (length == 5 && ((countFirst == 2 && countLast == 2) || (countFirst == 2 && countThird == 2) || countLast == 2 && countThird == 2))) {
-        if (countFirst == 2 && countThird == 2) {
-          return (TWO_PAIR, List(0, 1, 2, 3)) //twopair case 1
-        } else if (countFirst == 2 && countLast == 2) {
-          return (TWO_PAIR, List(0, 1, 3, 4)) //twopair case 2
-        } else {
-          return (TWO_PAIR, List(1, 2, 3, 4)) //twopair case 3
-        }
+      } else if (length == 4 && countFirst == 2 && countThird == 2) {
+        return (TWO_PAIR, List(0, 1, 2, 3)) //twopair case 4 cards
+      } else if (length == 5 && countFirst == 2 && countThird == 2) {
+        return (TWO_PAIR, List(0, 1, 2, 3)) //twopair case 1
+      } else if (length == 5 && countFirst == 2 && countLast == 2) {
+        return (TWO_PAIR, List(0, 1, 3, 4)) //twopair case 2
+      } else if (length == 5 && countThird == 2 && countLast == 2) {
+        return (TWO_PAIR, List(1, 2, 3, 4)) //twopair case 3
       } else if (kind.contains(2)) {
         if (countFirst == 2) {
           return (PAIR, List(0, 1)) //pair case 1
@@ -108,7 +104,7 @@ object PokerHands:
             || next.rank.ordinal - 12 == sorted.head.rank.ordinal =>
             ()
           case _ =>
-            return (HIGH_CARD, List(sorted.indexOf(sorted.last))) //highcard case
+            return (HIGH_CARD, List(length - 1)) //highcard case
         }
       }
       (STRAIGHT, List(0, 1, 2, 3, 4)) //straight case
@@ -116,10 +112,7 @@ object PokerHands:
   }
 
   def templist(length: Int, count1: Int, count2: Int, sorted: List[Card]): (List[Int], Option[Int], Option[Int]) = {
-    if (length == 2) {
-      val countPair = sorted.count(_.rank == sorted(1).rank)
-      (List(count1, count2, countPair), None, Some(countPair))
-    } else if (length >= 3) {
+    if (length >= 3) {
       val count3 = sorted.count(_.rank == sorted(2).rank)
       val countPair = sorted.count(_.rank == sorted(1).rank)
       (List(count1, count2, count3), Some(count3), Some(countPair))
