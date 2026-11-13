@@ -20,6 +20,11 @@ case class Game(player: Player = Player(0),
   def play() : Game = {
   copy(currentRound = currentRound.play())
   }
+
+  def nextRound():Game = {
+    print("NEUE RUNDE")
+    this //todo
+  }
 }
 
 object Game:

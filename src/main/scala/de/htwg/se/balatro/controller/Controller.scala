@@ -21,7 +21,8 @@ class Controller(startGame: Game = Game.start()) extends Observable {
     multiplier = currentGame.currentRound.currentHand().mult,
     chipsTotal = currentGame.currentRound.currentHand().chipsTotal,
     handName = currentGame.currentRound.currentHand().hand.toString,
-    handcards = createHandCards()
+    handcards = createHandCards(),
+    phase = currentState.phase //todo display on tui if required
   )
 
   def handle(action: Action): Unit = {

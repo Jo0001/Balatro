@@ -1,10 +1,11 @@
 package de.htwg.se.balatro.controller
 
 import de.htwg.se.balatro.model.Game
-import de.htwg.se.balatro.util.Action
+import de.htwg.se.balatro.util.{Action, Phase}
 import de.htwg.se.balatro.util.Action.*
 
 class PlayingState extends GameState {
+  def phase: Phase = Phase.Playing
   override def handle(action: Action, game: Game): (Game, GameState) = action match {
     case Select(indices) => (game.select(indices), this)
     case Discard => (game.discard(), this)
