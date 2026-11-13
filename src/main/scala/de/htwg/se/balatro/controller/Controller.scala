@@ -22,7 +22,7 @@ class Controller(startGame: Game = Game.start()) extends Observable {
     chipsTotal = currentGame.currentRound.currentHand().chipsTotal,
     handName = currentGame.currentRound.currentHand().hand.toString,
     handcards = createHandCards(),
-    phase = currentState.phase //todo display on tui if required
+    phase = currentState.phase
   )
 
   def handle(action: Action): Unit = {
