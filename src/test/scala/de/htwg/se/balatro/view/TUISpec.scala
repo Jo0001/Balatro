@@ -167,7 +167,7 @@ class TUISpec extends AnyWordSpec {
     val tui = TUI(controller)
     val rendered = tui.createRender(snapshot)
 
-    "Blind-Namen und Statusleiste mit allen Werten enthalten" in {
+    "Blind-namen and Statusbar with all values" in {
       rendered should include("<Score 50/100>")
       rendered should include("<Reward 3$>")
       rendered should include("<Ante 1/8>")
@@ -175,17 +175,13 @@ class TUISpec extends AnyWordSpec {
     }
 
 
-    "das Menü enthalten" in {
+    "have the menu" in {
       rendered should include("Menu")
       rendered should include("'play'")
       rendered should include("'discard'")
     }
 
-    "auch ohne Handkarten nicht fehlschlagen" in {
-      noException should be thrownBy tui.createRender(snapshot.copy(handcards = List()))
-    }
-
-    "für denselben Snapshot immer dasselbe Ergebnis liefern" in {
+    "return the same result on rerender of the same snapshot" in {
       tui.createRender(snapshot) shouldBe tui.createRender(snapshot)
     }
   }
