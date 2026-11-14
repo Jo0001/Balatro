@@ -4,7 +4,7 @@ import de.htwg.se.balatro.controller.Controller
 import de.htwg.se.balatro.util.CardColor.*
 import de.htwg.se.balatro.util.CardSymbol.*
 import de.htwg.se.balatro.model.{Card, CardRank}
-import de.htwg.se.balatro.util.Phase.Playing
+import de.htwg.se.balatro.util.Phase.{GameOver, Menu, Playing, RoundWon}
 import de.htwg.se.balatro.util.{CardColor, CardSnapshot, CardSymbol, GameSnapshot}
 import de.htwg.se.balatro.view.TUI
 import org.scalatest.matchers.should.Matchers.*
@@ -33,6 +33,20 @@ class TUISpec extends AnyWordSpec {
       val tui = TUI(controller)
       val score = tui.createLiveScore(10, 2, "Pair")
       score should be(s"${Console.BLUE_B}10${Console.RESET}x${Console.RED_B}2${Console.RESET} Pair")
+    }
+  }
+  "TUI" should {
+    "have a RoundWon message" in {
+      val tui = TUI(controller)
+      val message = tui.createRoundWonMessage()
+      message should be("You have won this round. Start the next round with 'next'")
+    }
+  }
+  "TUI" should {
+    "have a GameOver message" in {
+      val tui = TUI(controller)
+      val message = tui.createGameOverMessage()
+      message should be("Game over :(")
     }
   }
   "TUI" should {
@@ -160,7 +174,7 @@ class TUISpec extends AnyWordSpec {
     handcards = List(
       CardSnapshot(selected = false, rank = "ACE", color = CardColor.BLACK, symbol = CardSymbol.SPADES),
       CardSnapshot(selected = true, rank = "KING", color = CardColor.RED, symbol = CardSymbol.HEARTS)
-    ), phase= Playing
+    ), phase = Playing
   )
 
   // ---------- createRender ----------
@@ -168,7 +182,7 @@ class TUISpec extends AnyWordSpec {
     val tui = TUI(controller)
     val rendered = tui.createRender(snapshot)
 
-    "Blind-namen and Statusbar with all values" in {
+    "show blind-names and Statusbar with all values if in PLAYING state" in {
       rendered should include("<Score 50/100>")
       rendered should include("<Reward 3$>")
       rendered should include("<Ante 1/8>")
@@ -184,6 +198,28 @@ class TUISpec extends AnyWordSpec {
 
     "return the same result on rerender of the same snapshot" in {
       tui.createRender(snapshot) shouldBe tui.createRender(snapshot)
+    }
+  }
+
+  "TUI.createRender" should {
+    val tui = TUI(controller)
+    val rendered = tui.createRender(snapshot.copy(phase = GameOver))
+    "show GameOver if in GAMEOVER state" in {
+      rendered should be("Game over :(")
+    }
+  }
+  "TUI.createRender" should {
+    val tui = TUI(controller)
+    val rendered = tui.createRender(snapshot.copy(phase = RoundWon))
+    "show Round Won message if in RoundWon state" in {
+      rendered should be("You have won this round. Start the next round with 'next'")
+    }
+  }
+  "TUI.createRender" should {
+    val tui = TUI(controller)
+    val rendered = tui.createRender(snapshot.copy(phase = Menu))
+    "show the menu if in Menu state" in {
+      rendered should be("todo not yet implemented")
     }
   }
 

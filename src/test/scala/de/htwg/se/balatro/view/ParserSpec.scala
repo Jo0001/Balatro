@@ -37,6 +37,12 @@ class ParserSpec extends AnyWordSpec {
     }
   }
   "Parser" should {
+    "parse the next command (no matter of case sensitivity)" in {
+      val parser = Parser()
+      parser.parse("neXt") should be(Next)
+    }
+  }
+  "Parser" should {
     "detect invalid/malformed commands" in {
       val parser = Parser()
       parser.parse("spielen") should be(UnknownCommand)
@@ -44,6 +50,7 @@ class ParserSpec extends AnyWordSpec {
       parser.parse("discard 1 2") should be(UnknownCommand)
       parser.parse("select 99") should be(UnknownCommand)
       parser.parse("select 12") should be(UnknownCommand)
+      parser.parse("next 12") should be(UnknownCommand)
       parser.parseSelect("select") should be(UnknownCommand) //with normal parse never reachable
     }
   }

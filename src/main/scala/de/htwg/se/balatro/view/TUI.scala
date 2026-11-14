@@ -22,7 +22,7 @@ class TUI(controller: Controller) extends Observer {
         val livescore = createLiveScore(gameSnapshot.chips, gameSnapshot.multiplier, gameSnapshot.handName)
         s"${createTitle(gameSnapshot.blindName, statusbar.length, Console.BLUE_B)}\n$statusbar\n${useSpace(statusbar.length, List(livescore, remaining))}\n\n${createHandView(statusbar.length, gameSnapshot.handcards)}\n\n${createMenu()}"
       }
-      case Menu => ??? //todo implement
+      case Menu => "todo not yet implemented" //todo implement
       case RoundWon => createRoundWonMessage()
       case GameOver => createGameOverMessage()
     }
