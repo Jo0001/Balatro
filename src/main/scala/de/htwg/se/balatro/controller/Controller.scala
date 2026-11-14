@@ -2,11 +2,10 @@ package de.htwg.se.balatro.controller
 
 import de.htwg.se.balatro.model.Game
 import de.htwg.se.balatro.util.*
-import de.htwg.se.balatro.util.Action.*
 
 class Controller(startGame: Game = Game.start()) extends Observable {
-
-  var currentGame: Game = startGame //todo avoid var
+  var currentGame: Game = startGame
+  var currentState: GameState = PlayingState()
 
   def gameSnapshot: GameSnapshot = GameSnapshot(
     blindName = currentGame.currentRound.blind.blindType.toString,
@@ -22,17 +21,14 @@ class Controller(startGame: Game = Game.start()) extends Observable {
     multiplier = currentGame.currentRound.currentHand().mult,
     chipsTotal = currentGame.currentRound.currentHand().chipsTotal,
     handName = currentGame.currentRound.currentHand().hand.toString,
-    handcards = createHandCards()
+    handcards = createHandCards(),
+    phase = currentState.phase
   )
 
   def handle(action: Action): Unit = {
-    currentGame = action match {
-      case Discard =>  currentGame.discard()
-      case Play => currentGame.play()
-      //internal its 0 based but user uses 1 based indices
-      case Select(indices) => currentGame.select(indices)
-      case _ => currentGame //todo OpenMenu (and everything else) does not change the model yet
-    }
+    val (game, state) = currentState.handle(action, currentGame)
+    currentGame = game
+    currentState = state
     notifyObservers()
   }
 

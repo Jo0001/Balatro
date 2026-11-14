@@ -5,6 +5,7 @@ import de.htwg.se.balatro.util.CardColor.*
 import de.htwg.se.balatro.util.CardSymbol.*
 import de.htwg.se.balatro.util.Action.UnknownCommand
 import de.htwg.se.balatro.util.*
+import de.htwg.se.balatro.util.Phase.*
 
 import scala.annotation.tailrec
 import scala.io.StdIn.readLine
@@ -14,10 +15,17 @@ class TUI(controller: Controller) extends Observer {
   controller.add(this)
 
   def createRender(gameSnapshot: GameSnapshot): String = {
-    val statusbar = createStatusbar(gameSnapshot.score, gameSnapshot.goal, gameSnapshot.reward, gameSnapshot.ante, gameSnapshot.maxAnte, gameSnapshot.roundCounter)
-    val remaining = createRemaining(gameSnapshot.discards, gameSnapshot.hands)
-    val livescore = createLiveScore(gameSnapshot.chips, gameSnapshot.multiplier, gameSnapshot.handName)
-    s"${createTitle(gameSnapshot.blindName, statusbar.length, Console.BLUE_B)}\n$statusbar\n${useSpace(statusbar.length, List(livescore, remaining))}\n\n${createHandView(statusbar.length, gameSnapshot.handcards)}\n\n${createMenu()}"
+    gameSnapshot.phase match {
+      case Playing => {
+        val statusbar = createStatusbar(gameSnapshot.score, gameSnapshot.goal, gameSnapshot.reward, gameSnapshot.ante, gameSnapshot.maxAnte, gameSnapshot.roundCounter)
+        val remaining = createRemaining(gameSnapshot.discards, gameSnapshot.hands)
+        val livescore = createLiveScore(gameSnapshot.chips, gameSnapshot.multiplier, gameSnapshot.handName)
+        s"${createTitle(gameSnapshot.blindName, statusbar.length, Console.BLUE_B)}\n$statusbar\n${useSpace(statusbar.length, List(livescore, remaining))}\n\n${createHandView(statusbar.length, gameSnapshot.handcards)}\n\n${createMenu()}"
+      }
+      case Menu => ??? //todo implement
+      case RoundWon => createRoundWonMessage()
+      case GameOver => createGameOverMessage()
+    }
   }
 
   def createTitle(title: String, statusbarLength: Int, color: String): String = {
@@ -55,6 +63,12 @@ class TUI(controller: Controller) extends Observer {
 
   def createCommandErrorMessage(misspelled: String): String =
     s"${Console.RED}Unknown or misspelled command '$misspelled' ${Console.RESET}"
+
+  def createRoundWonMessage(): String =
+    "You have won this round. Start the next round with 'next'"
+
+  def createGameOverMessage(): String =
+    "Game over :("
 
   def useSpace(length: Int, elements: List[String]): String =
     val ansiRegex = "\u001B\\[[0-?]*[ -/]*[@-~]"

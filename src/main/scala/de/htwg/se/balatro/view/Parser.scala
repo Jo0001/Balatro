@@ -11,6 +11,7 @@ class Parser {
       case in if in.startsWith("select ") => parseSelect(cleanInput)
       case "play" => Play
       case "discard" => Discard
+      case "next" => Next
       case "menu" => OpenMenu
       case _ => UnknownCommand
     }

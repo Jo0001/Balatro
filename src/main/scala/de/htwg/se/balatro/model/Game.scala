@@ -10,15 +10,20 @@ case class Game(player: Player = Player(0),
   val ante = 8
 
   def select(indices: List[Int]): Game = {
-  copy(currentRound = currentRound.select(indices))
+    copy(currentRound = currentRound.select(indices))
   }
 
   def discard(): Game = {
-  copy(currentRound = currentRound.discard())
+    copy(currentRound = currentRound.discard())
   }
 
-  def play() : Game = {
-  copy(currentRound = currentRound.play())
+  def play(): Game = {
+    copy(currentRound = currentRound.play())
+  }
+
+  def nextRound(): Game = {
+    val newRound = Round.start(Deck(), Blind(Big, 4, 150, 1)) //todo replace
+    copy(player = Player(player.money + currentRound.blind.reward), currentRound = newRound, roundCounter = roundCounter + 1)
   }
 }
 

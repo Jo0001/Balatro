@@ -4,6 +4,7 @@ import de.htwg.se.balatro.controller.Controller
 import de.htwg.se.balatro.util.CardColor.*
 import de.htwg.se.balatro.util.CardSymbol.*
 import de.htwg.se.balatro.model.{Card, CardRank}
+import de.htwg.se.balatro.util.Phase.Playing
 import de.htwg.se.balatro.util.{CardColor, CardSnapshot, CardSymbol, GameSnapshot}
 import de.htwg.se.balatro.view.TUI
 import org.scalatest.matchers.should.Matchers.*
@@ -159,7 +160,7 @@ class TUISpec extends AnyWordSpec {
     handcards = List(
       CardSnapshot(selected = false, rank = "ACE", color = CardColor.BLACK, symbol = CardSymbol.SPADES),
       CardSnapshot(selected = true, rank = "KING", color = CardColor.RED, symbol = CardSymbol.HEARTS)
-    )
+    ), phase= Playing
   )
 
   // ---------- createRender ----------
