@@ -4,7 +4,7 @@ import de.htwg.se.balatro.controller.Controller
 import de.htwg.se.balatro.util.CardColor.*
 import de.htwg.se.balatro.util.CardSymbol.*
 import de.htwg.se.balatro.model.{Card, CardRank}
-import de.htwg.se.balatro.util.Phase.{GameOver, Menu, Playing, RoundWon}
+import de.htwg.se.balatro.util.Phase.{GameOver, Playing, RoundWon}
 import de.htwg.se.balatro.util.{CardColor, CardSnapshot, CardSymbol, GameSnapshot}
 import de.htwg.se.balatro.view.TUI
 import org.scalatest.matchers.should.Matchers.*
@@ -58,8 +58,7 @@ class TUISpec extends AnyWordSpec {
            |Selecting the same card again will unselect it
            |Card numbers are starting with 1 (to not confuse non techy users)
            |Use 'play' to ... well play your selected cards
-           |Use 'discard' to discard your selected cards
-           |Use 'menu' to open the settings and exit the game""".stripMargin)
+           |Use 'discard' to discard your selected cards""".stripMargin)
     }
   }
   "TUI" should {
@@ -213,13 +212,6 @@ class TUISpec extends AnyWordSpec {
     val rendered = tui.createRender(snapshot.copy(phase = RoundWon))
     "show Round Won message if in RoundWon state" in {
       rendered should be("You have won this round. Start the next round with 'next'")
-    }
-  }
-  "TUI.createRender" should {
-    val tui = TUI(controller)
-    val rendered = tui.createRender(snapshot.copy(phase = Menu))
-    "show the menu if in Menu state" in {
-      rendered should be("todo not yet implemented")
     }
   }
 

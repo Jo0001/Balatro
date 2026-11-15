@@ -22,7 +22,6 @@ class TUI(controller: Controller) extends Observer {
         val livescore = createLiveScore(gameSnapshot.chips, gameSnapshot.multiplier, gameSnapshot.handName)
         s"${createTitle(gameSnapshot.blindName, statusbar.length, Console.BLUE_B)}\n$statusbar\n${useSpace(statusbar.length, List(livescore, remaining))}\n\n${createHandView(statusbar.length, gameSnapshot.handcards)}\n\n${createMenu()}"
       }
-      case Menu => "todo not yet implemented" //todo implement
       case RoundWon => createRoundWonMessage()
       case GameOver => createGameOverMessage()
     }
@@ -48,8 +47,7 @@ class TUI(controller: Controller) extends Observer {
        |Selecting the same card again will unselect it
        |Card numbers are starting with 1 (to not confuse non techy users)
        |Use 'play' to ... well play your selected cards
-       |Use 'discard' to discard your selected cards
-       |Use 'menu' to open the settings and exit the game""".stripMargin
+       |Use 'discard' to discard your selected cards""".stripMargin
 
   def createHandView(statusbarLength: Int, cardSnapshots: List[CardSnapshot]): String =
     useSpace(statusbarLength, cardSnapshots.map(card => createCardRender(card)))

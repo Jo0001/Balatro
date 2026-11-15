@@ -70,21 +70,17 @@ class ControllerSpec extends AnyWordSpec with Matchers {
       after.discardCounter shouldBe before.discardCounter
     }
 
-    "leave the game in its current state when OpenMenu or UnknownCommand is called" in {
-      List(OpenMenu, UnknownCommand).foreach { action =>
-        val controller = freshController()
-        val before = controller.currentGame
-
-        controller.handle(action)
-
-        controller.currentGame shouldBe before
-      }
+    "leave the game in its current state when UnknownCommand is called" in {
+      val controller = freshController()
+      val before = controller.currentGame
+      controller.handle(UnknownCommand)
+      controller.currentGame shouldBe before
     }
 
     "Inform Observer one time everytime something changes" in {
       val actions: List[Action] =
         List(Select(List(0, 2)), Discard, Play,
-          OpenMenu, UnknownCommand)
+          UnknownCommand)
 
       actions.foreach { action =>
         val controller = freshController()

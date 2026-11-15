@@ -7,12 +7,6 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class ParserSpec extends AnyWordSpec {
   "Parser" should {
-    "parse the menu command (no matter of spaces / case sensitivity)" in {
-      val parser = Parser()
-      parser.parse(" mEnu ") should be(OpenMenu)
-    }
-  }
-  "Parser" should {
     "parse the play command (no matter of spaces / case sensitivity)" in {
       val parser = Parser()
       parser.parse("Play") should be(Play)

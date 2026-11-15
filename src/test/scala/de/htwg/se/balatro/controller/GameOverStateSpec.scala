@@ -4,7 +4,7 @@ package de.htwg.se.balatro.controller
 import de.htwg.se.balatro.model.BlindType.Small
 import de.htwg.se.balatro.model.CardRank.ACE
 import de.htwg.se.balatro.model.{Blind, Card, Game, Round}
-import de.htwg.se.balatro.util.Action.{Discard, OpenMenu, Play, Restart, Select}
+import de.htwg.se.balatro.util.Action.{Discard, Play, Restart, Select}
 import de.htwg.se.balatro.util.CardSymbol.DIAMONDS
 import de.htwg.se.balatro.util.Phase.GameOver
 import org.scalatest.matchers.should.Matchers.{a, should, shouldBe}
@@ -28,7 +28,7 @@ class GameOverStateSpec extends AnyWordSpec {
       state.phase shouldBe GameOver
     }
 
-    List(Play, Discard, OpenMenu, Select(List(0))).foreach { action =>
+    List(Play, Discard, Select(List(0))).foreach { action =>
       s"ignore $action and keep the finished game on screen" in {
         val (newGame, newState) = state.handle(action, game)
         newGame shouldBe game

@@ -4,7 +4,7 @@ package de.htwg.se.balatro.controller
 import de.htwg.se.balatro.model.BlindType.{Big, Boss, Small}
 import de.htwg.se.balatro.model.CardRank.ACE
 import de.htwg.se.balatro.model.{Blind, BlindType, Card, Game, Player, Round}
-import de.htwg.se.balatro.util.Action.{Discard, Next, OpenMenu, Play, Select}
+import de.htwg.se.balatro.util.Action.{Discard, Next, Play, Select}
 import de.htwg.se.balatro.util.CardSymbol.DIAMONDS
 import de.htwg.se.balatro.util.Phase.RoundWon
 import org.scalatest.matchers.should.Matchers.*
@@ -31,7 +31,7 @@ class RoundWonStateSpec extends AnyWordSpec {
       state.phase shouldBe RoundWon
     }
 
-    List(Play, Discard, OpenMenu, Select(List(0))).foreach { action =>
+    List(Play, Discard, Select(List(0))).foreach { action =>
       s"ignore $action and wait for the player" in {
         val (newGame, newState) = state.handle(action, game)
         newGame shouldBe game
