@@ -33,5 +33,21 @@ class PlayingStateSpec extends AnyWordSpec {
       state.handle(Play, game)._2 shouldBe a[RoundWonState]
     }
   }
-
+  "PlayingState" should {
+    "transition to round won if the score equals the goal exactly" in {
+      val state = PlayingState()
+      val round = Round(handcards = List(Card(DIAMONDS, ACE)), blind = Blind(Small, reward = 3, goal = 1000, ante = 1), selected = List(0))
+      val exactGoal = Game(currentRound = round).play().currentRound.score
+      val game = Game(currentRound = round.copy(blind = round.blind.copy(goal = exactGoal)))
+      state.handle(Play, game)._2 shouldBe a[RoundWonState]
+    }
+  }
+  "PlayingState" should {
+    val state = PlayingState()
+    val round = Round(handcards = List(Card(DIAMONDS, ACE)), blind = Blind(Small, reward = 3, goal = 1000, ante = 1), selected = List(0))
+    val game = Game(currentRound = round)
+    "stay in playing if the goal is not reached and plays remain" in {
+      state.handle(Play, game)._2 shouldBe state
+    }
+  }
 }
