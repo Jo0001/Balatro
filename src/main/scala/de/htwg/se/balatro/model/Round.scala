@@ -12,11 +12,8 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: In
   def remainingDiscards: Int = maxDiscards - discardCounter
 
   def currentHand(): PokerHands =
-    if (selectedCards(handcards, selected).nonEmpty) {
-      PokerHands(selectedCards(handcards, selected))
-    } else {
-      PokerHands(PokerHandTypes.EMPTY, List(), List())
-    }
+    PokerHands(selectedCards(handcards, selected))
+
 
   def select(indices: List[Int]): Round = {
     val newSelected = indices.foldLeft(selected) { (selection, index) =>
