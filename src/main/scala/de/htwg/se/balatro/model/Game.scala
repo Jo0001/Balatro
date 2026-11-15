@@ -22,8 +22,13 @@ case class Game(player: Player = Player(0),
   }
 
   def nextRound(): Game = {
-    val newRound = Round.start(Deck(), Blind(Big, 4, 150, 1)) //todo replace
-    copy(player = Player(player.money + currentRound.blind.reward), currentRound = newRound, roundCounter = roundCounter + 1)
+    val blind = currentRound.blind
+    val (nextType, nextAnte) = blind.blindType match
+      case Small => (Big, blind.ante)
+      case Big => (Boss, blind.ante)
+      case Boss => (Small, blind.ante + 1)
+    val newRound = Round.start(Deck(), Blind(nextType, blind.reward + 1, (blind.goal * 1.5).toInt, nextAnte), currentRound.rand)
+    copy(player = Player(player.money + blind.reward), currentRound = newRound, roundCounter = roundCounter + 1)
   }
 }
 

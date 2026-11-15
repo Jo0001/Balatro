@@ -46,7 +46,7 @@ class TUISpec extends AnyWordSpec {
     "have a GameOver message" in {
       val tui = TUI(controller)
       val message = tui.createGameOverMessage()
-      message should be("Game over :(")
+      message should be("Game over :( Restart with the 'restart' command")
     }
   }
   "TUI" should {
@@ -205,7 +205,7 @@ class TUISpec extends AnyWordSpec {
     val tui = TUI(controller)
     val rendered = tui.createRender(snapshot.copy(phase = GameOver))
     "show GameOver if in GAMEOVER state" in {
-      rendered should be("Game over :(")
+      rendered should be("Game over :( Restart with the 'restart' command")
     }
   }
   "TUI.createRender" should {

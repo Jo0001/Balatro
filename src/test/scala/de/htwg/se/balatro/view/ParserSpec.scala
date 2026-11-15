@@ -43,6 +43,12 @@ class ParserSpec extends AnyWordSpec {
     }
   }
   "Parser" should {
+    "parse the restart command (no matter of case sensitivity)" in {
+      val parser = Parser()
+      parser.parse("RESTART") should be(Restart)
+    }
+  }
+  "Parser" should {
     "detect invalid/malformed commands" in {
       val parser = Parser()
       parser.parse("spielen") should be(UnknownCommand)

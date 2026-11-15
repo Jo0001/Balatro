@@ -68,7 +68,7 @@ class TUI(controller: Controller) extends Observer {
     "You have won this round. Start the next round with 'next'"
 
   def createGameOverMessage(): String =
-    "Game over :("
+    "Game over :( Restart with the 'restart' command"
 
   def useSpace(length: Int, elements: List[String]): String =
     val ansiRegex = "\u001B\\[[0-?]*[ -/]*[@-~]"
