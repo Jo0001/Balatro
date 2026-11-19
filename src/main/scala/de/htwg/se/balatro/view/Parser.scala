@@ -12,6 +12,8 @@ class Parser {
       case "play" => Play
       case "discard" => Discard
       case "next" => Next
+      case "undo" => Undo
+      case "redo" => Redo
       case "restart" => Restart
       case _ => UnknownCommand
     }

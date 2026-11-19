@@ -58,7 +58,9 @@ class TUISpec extends AnyWordSpec {
            |Selecting the same card again will unselect it
            |Card numbers are starting with 1 (to not confuse non techy users)
            |Use 'play' to ... well play your selected cards
-           |Use 'discard' to discard your selected cards""".stripMargin)
+           |Use 'discard' to discard your selected cards
+           |Use 'undo' to take back your last action
+           |Use 'redo' to repeat what you took back""".stripMargin)
     }
   }
   "TUI" should {

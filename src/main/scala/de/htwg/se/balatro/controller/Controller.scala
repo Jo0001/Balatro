@@ -6,6 +6,7 @@ import de.htwg.se.balatro.util.*
 class Controller(startGame: Game = Game.start()) extends Observable {
   var currentGame: Game = startGame
   var currentState: GameState = PlayingState()
+  private val undoManager = UndoManager()
 
   def gameSnapshot: GameSnapshot = GameSnapshot(
     blindName = currentGame.currentRound.blind.blindType.toString,
@@ -26,10 +27,26 @@ class Controller(startGame: Game = Game.start()) extends Observable {
   )
 
   def handle(action: Action): Unit = {
+    action match {
+      case Action.Undo =>
+        undoManager.undoStep()
+      case Action.Redo =>
+        undoManager.redoStep()
+      case Action.Select(_) =>
+        applyDirectly(action)
+      case Action.Restart =>
+        applyDirectly(action)
+        undoManager.clear()
+      case _ =>
+        undoManager.doStep(new HandleCommand(this, action))
+    }
+    notifyObservers()
+  }
+
+  private def applyDirectly(action: Action): Unit = {
     val (game, state) = currentState.handle(action, currentGame)
     currentGame = game
     currentState = state
-    notifyObservers()
   }
 
   def createHandCards(): List[CardSnapshot] = {

@@ -36,6 +36,21 @@ class ParserSpec extends AnyWordSpec {
       parser.parse("neXt") should be(Next)
     }
   }
+
+  "Parser" should {
+    "parse the undo command (no matter of case sensitivity)" in {
+      val parser = Parser()
+      parser.parse("unDo") should be(Undo)
+    }
+  }
+
+  "Parser" should {
+    "parse the redo command (no matter of case sensitivity)" in {
+      val parser = Parser()
+      parser.parse("ReDo") should be(Redo)
+    }
+  }
+
   "Parser" should {
     "parse the restart command (no matter of case sensitivity)" in {
       val parser = Parser()

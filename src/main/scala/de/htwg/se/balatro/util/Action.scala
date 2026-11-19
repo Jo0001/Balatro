@@ -6,4 +6,6 @@ enum Action:
   case Discard
   case Next
   case Restart
+  case Undo
+  case Redo
   case UnknownCommand
