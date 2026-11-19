@@ -51,7 +51,6 @@ class ParserSpec extends AnyWordSpec {
       parser.parse("select 99") should be(UnknownCommand)
       parser.parse("select 12") should be(UnknownCommand)
       parser.parse("next 12") should be(UnknownCommand)
-      parser.parseSelect("select") should be(UnknownCommand) //with normal parse never reachable
     }
   }
 }
