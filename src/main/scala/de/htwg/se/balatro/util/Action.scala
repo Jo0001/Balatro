@@ -5,5 +5,5 @@ enum Action:
   case Play
   case Discard
   case Next
-  case OpenMenu
+  case Restart
   case UnknownCommand

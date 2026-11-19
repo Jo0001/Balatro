@@ -7,12 +7,6 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class ParserSpec extends AnyWordSpec {
   "Parser" should {
-    "parse the menu command (no matter of spaces / case sensitivity)" in {
-      val parser = Parser()
-      parser.parse(" mEnu ") should be(OpenMenu)
-    }
-  }
-  "Parser" should {
     "parse the play command (no matter of spaces / case sensitivity)" in {
       val parser = Parser()
       parser.parse("Play") should be(Play)
@@ -37,6 +31,18 @@ class ParserSpec extends AnyWordSpec {
     }
   }
   "Parser" should {
+    "parse the next command (no matter of case sensitivity)" in {
+      val parser = Parser()
+      parser.parse("neXt") should be(Next)
+    }
+  }
+  "Parser" should {
+    "parse the restart command (no matter of case sensitivity)" in {
+      val parser = Parser()
+      parser.parse("RESTART") should be(Restart)
+    }
+  }
+  "Parser" should {
     "detect invalid/malformed commands" in {
       val parser = Parser()
       parser.parse("spielen") should be(UnknownCommand)
@@ -44,6 +50,7 @@ class ParserSpec extends AnyWordSpec {
       parser.parse("discard 1 2") should be(UnknownCommand)
       parser.parse("select 99") should be(UnknownCommand)
       parser.parse("select 12") should be(UnknownCommand)
+      parser.parse("next 12") should be(UnknownCommand)
       parser.parseSelect("select") should be(UnknownCommand) //with normal parse never reachable
     }
   }
