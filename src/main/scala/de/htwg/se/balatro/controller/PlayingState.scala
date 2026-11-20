@@ -9,7 +9,6 @@ class PlayingState extends GameState {
   override def handle(action: Action, game: Game): (Game, GameState) = action match {
     case Select(indices) => (game.select(indices), this)
     case Discard => (game.discard(), this)
-    //todo case OpenMenu => (game, MenuState(previous = this))
     case Play =>
       val next = game.play()
       val round = next.currentRound
