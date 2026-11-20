@@ -4,8 +4,9 @@ import de.htwg.se.balatro.util.Action.*
 import de.htwg.se.balatro.util.Action
 
 class Parser {
-  val h4 = KeywordHandler("next", Next, h5)
-  val h5 = KeywordHandler("restart", Restart, EndOfChain())
+  val h7 = KeywordHandler("redo", Redo, EndOfChain())
+  val h6 = KeywordHandler("undo", Undo, h7)
+  val h5 = KeywordHandler("restart", Restart, h6)
   val h4 = KeywordHandler("next", Next, h5)
   val h3 = KeywordHandler("discard", Discard, h4)
   val h2 = KeywordHandler("play", Play, h3)
