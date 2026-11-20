@@ -8,8 +8,7 @@ import scala.util.{Success, Try}
 
 class PlayingState extends GameState {
   def phase: Phase = Phase.Playing
-
-  // PlayingState.scala
+  
   def handle(action: Action, game: Game): Try[(Game, GameState)] = action match {
     case Select(indices) => Success((game.select(indices), this))
     case Discard => game.discard().map(next => (next, this))
