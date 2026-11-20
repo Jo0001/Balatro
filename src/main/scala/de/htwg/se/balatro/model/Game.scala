@@ -2,7 +2,7 @@ package de.htwg.se.balatro.model
 
 import de.htwg.se.balatro.model.BlindType.*
 
-import scala.util.Random
+import scala.util.{Random, Try}
 
 case class Game(player: Player = Player(0),
                 currentRound: Round,
@@ -13,12 +13,12 @@ case class Game(player: Player = Player(0),
     copy(currentRound = currentRound.select(indices))
   }
 
-  def discard(): Game = {
-    copy(currentRound = currentRound.discard())
+  def discard(): Try[Game] = {
+    currentRound.discard().map(round => copy(currentRound = round))
   }
 
-  def play(): Game = {
-    copy(currentRound = currentRound.play())
+  def play(): Try[Game] = {
+    currentRound.play().map(round => copy(currentRound = round))
   }
 
   def nextRound(): Game = {

@@ -1,6 +1,8 @@
 package de.htwg.se.balatro.model
 
-import scala.util.Random
+import de.htwg.se.balatro.util.RoundError
+
+import scala.util.{Failure, Random, Success, Try}
 
 
 case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: Int = 0, selected: List[Int] = List(), deck: Deck = Deck(), score: Int = 0, blind: Blind, rand: Random = Random) {
@@ -31,30 +33,26 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: In
     copy(selected = if newSelected.size > 5 then List() else newSelected)
   }
 
-  def play(): Round = {
+  def play(): Try[Round] = {
     if (selected.isEmpty) {
-      //todo handle empty selection
-      this
+      Failure(RoundError.NoCardsSelected)
     } else if (handCounter >= maxPlays) {
-      //todo
-      this
+      Failure(RoundError.NoPlaysRemaining)
     } else {
       val pokerHand = PokerHands(selectedCards(handcards, selected))
       val (newHand, newDeck) = changeHands(handcards, selected)
-      this.copy(handCounter = handCounter + 1, selected = List(), handcards = newHand, deck = newDeck, score = score + pokerHand.scoreTotal)
+      Success(this.copy(handCounter = handCounter + 1, selected = List(), handcards = newHand, deck = newDeck, score = score + pokerHand.scoreTotal))
     }
   }
 
-  def discard(): Round = {
+  def discard(): Try[Round] = {
     if (discardCounter >= maxDiscards) {
-      //todo handle if discard is no longer allowed
-      this
+      Failure(RoundError.NoDiscardsRemaining)
     } else if (selected.isEmpty) {
-      //todo handle empty selection
-      this
+      Failure(RoundError.NoCardsSelected)
     } else {
       val (newHand, newDeck) = changeHands(handcards, selected)
-      this.copy(discardCounter = discardCounter + 1, selected = List(), handcards = newHand, deck = newDeck)
+      Success(this.copy(discardCounter = discardCounter + 1, selected = List(), handcards = newHand, deck = newDeck))
     }
   }
 

@@ -2,10 +2,12 @@ package de.htwg.se.balatro.controller
 
 import de.htwg.se.balatro.model.Game
 import de.htwg.se.balatro.util.*
+import scala.util.{Success, Failure}
 
 class Controller(startGame: Game = Game.start()) extends Observable {
   var currentGame: Game = startGame
   var currentState: GameState = PlayingState()
+  var lastError: Option[RoundError] = None //todo use in TUI
   private val undoManager = UndoManager()
 
   def gameSnapshot: GameSnapshot = GameSnapshot(
@@ -44,9 +46,16 @@ class Controller(startGame: Game = Game.start()) extends Observable {
   }
 
   private def applyDirectly(action: Action): Unit = {
-    val (game, state) = currentState.handle(action, currentGame)
-    currentGame = game
-    currentState = state
+    currentState.handle(action, currentGame) match {
+      case Success((game, state)) =>
+        currentGame = game
+        currentState = state
+        lastError = None
+      case Failure(error: RoundError) =>
+        lastError = Some(error)
+      case Failure(other) =>
+        throw other
+    }
   }
 
   def createHandCards(): List[CardSnapshot] = {
