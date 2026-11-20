@@ -163,6 +163,37 @@ class RoundSpec extends AnyWordSpec {
     "start with the small blind" in {
       round.blind shouldBe Blind(Small, 3, 100, 1)
     }
+
+    "Round" should {
+      "be won when the score reaches the blind goal" in {
+        val round = Round(List(), blind = blind, score = blind.goal)
+        round.isWon should be(true)
+      }
+    }
+    "Round" should {
+      "be won when the score exceeds the blind goal" in {
+        val round = Round(List(), blind = blind, score = blind.goal + 1)
+        round.isWon should be(true)
+      }
+    }
+    "Round" should {
+      "not be won when the score is below the blind goal" in {
+        val round = Round(List(), blind = blind, score = blind.goal - 1)
+        round.isWon should be(false)
+      }
+    }
+    "Round" should {
+      "be lost when no plays are remaining" in {
+        val round = Round(List(), blind = blind, handCounter = 4)
+        round.isLost should be(true)
+      }
+    }
+    "Round" should {
+      "not be lost when plays are remaining" in {
+        val round = Round(List(), blind = blind, handCounter = 3)
+        round.isLost should be(false)
+      }
+    }
   }
 
 }

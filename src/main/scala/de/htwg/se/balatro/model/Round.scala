@@ -11,6 +11,10 @@ case class Round(handcards: List[Card], discardCounter: Int = 0, handCounter: In
 
   def remainingDiscards: Int = maxDiscards - discardCounter
 
+  def isWon: Boolean = score >= blind.goal
+
+  def isLost: Boolean = remainingPlays == 0
+
   def currentHand(): PokerHands =
     PokerHands(selectedCards(handcards, selected))
 

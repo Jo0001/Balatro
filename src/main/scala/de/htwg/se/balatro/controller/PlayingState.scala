@@ -12,8 +12,8 @@ class PlayingState extends GameState {
     case Play =>
       val next = game.play()
       val round = next.currentRound
-      if round.score >= round.blind.goal then (next, RoundWonState())
-      else if round.remainingPlays == 0 then (next, GameOverState())
+      if round.isWon then (next, RoundWonState())
+      else if round.isLost then (next, GameOverState())
       else (next, this)
     case _ => (game, this)
   }
