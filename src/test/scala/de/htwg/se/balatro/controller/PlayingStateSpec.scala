@@ -22,7 +22,7 @@ class PlayingStateSpec extends AnyWordSpec {
     val round = Round(handcards = List(Card(DIAMONDS, ACE)), blind = Blind(Small, reward = 3, goal = 100, ante = 1), handCounter = 3, selected = List(0))
     val game = Game(currentRound = round)
     "transition to game over if remaining plays == 0" in {
-      state.handle(Play, game)._2 shouldBe a[GameOverState]
+      state.handle(Play, game).get._2 shouldBe a[GameOverState]
     }
   }
   "PlayingState" should {
@@ -30,16 +30,16 @@ class PlayingStateSpec extends AnyWordSpec {
     val round = Round(handcards = List(Card(DIAMONDS, ACE)), blind = Blind(Small, reward = 3, goal = 1, ante = 1), selected = List(0))
     val game = Game(currentRound = round)
     "transition to round won if the score is reached" in {
-      state.handle(Play, game)._2 shouldBe a[RoundWonState]
+      state.handle(Play, game).get._2 shouldBe a[RoundWonState]
     }
   }
   "PlayingState" should {
     "transition to round won if the score equals the goal exactly" in {
       val state = PlayingState()
       val round = Round(handcards = List(Card(DIAMONDS, ACE)), blind = Blind(Small, reward = 3, goal = 1000, ante = 1), selected = List(0))
-      val exactGoal = Game(currentRound = round).play().currentRound.score
+      val exactGoal = Game(currentRound = round).play().get.currentRound.score
       val game = Game(currentRound = round.copy(blind = round.blind.copy(goal = exactGoal)))
-      state.handle(Play, game)._2 shouldBe a[RoundWonState]
+      state.handle(Play, game).get._2 shouldBe a[RoundWonState]
     }
   }
   "PlayingState" should {
@@ -47,7 +47,7 @@ class PlayingStateSpec extends AnyWordSpec {
     val round = Round(handcards = List(Card(DIAMONDS, ACE)), blind = Blind(Small, reward = 3, goal = 1000, ante = 1), selected = List(0))
     val game = Game(currentRound = round)
     "stay in playing if the goal is not reached and plays remain" in {
-      state.handle(Play, game)._2 shouldBe state
+      state.handle(Play, game).get._2 shouldBe state
     }
   }
 }

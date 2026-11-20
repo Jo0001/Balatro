@@ -30,14 +30,14 @@ class GameOverStateSpec extends AnyWordSpec {
 
     List(Play, Discard, Select(List(0))).foreach { action =>
       s"ignore $action and keep the finished game on screen" in {
-        val (newGame, newState) = state.handle(action, game)
+        val (newGame, newState) = state.handle(action, game).get
         newGame shouldBe game
         newState shouldBe state
       }
     }
 
     "start a fresh game on Restart" in {
-      val (newGame, _) = state.handle(Restart, game)
+      val (newGame, _) = state.handle(Restart, game).get
       newGame.currentRound.handCounter shouldBe 0
       newGame.currentRound.score shouldBe 0
       newGame.currentRound.handcards.size shouldBe 8
@@ -45,7 +45,7 @@ class GameOverStateSpec extends AnyWordSpec {
     }
 
     "go back to PlayingState on Restart" in {
-      state.handle(Restart, game)._2 shouldBe a[PlayingState]
+      state.handle(Restart, game).get._2 shouldBe a[PlayingState]
     }
   }
 }

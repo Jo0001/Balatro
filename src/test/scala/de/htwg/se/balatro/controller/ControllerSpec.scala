@@ -2,11 +2,11 @@ package de.htwg.se.balatro.controller
 
 import de.htwg.se.balatro.model.Game
 import de.htwg.se.balatro.util.Action.*
-import de.htwg.se.balatro.util.{Observer, Phase}
+import de.htwg.se.balatro.util.{Action, Observer, Phase, RoundError}
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
-import scala.util.Random
+import scala.util.{Failure, Random, Try}
 
 class ControllerSpec extends AnyWordSpec {
   "Controller" should {
@@ -42,6 +42,35 @@ class ControllerSpec extends AnyWordSpec {
       val snapshot = controller.gameSnapshot // gameSnapshot + createHandCards
       snapshot.phase shouldBe Phase.Playing
       snapshot.handcards.size shouldBe 8
+    }
+  }
+
+  class FailingState(error: Throwable) extends GameState {
+    def phase: Phase = Phase.Playing
+
+    def handle(action: Action, game: Game): Try[(Game, GameState)] = Failure(error)
+  }
+
+  "Controller" should {
+
+    "store a RoundError in lastError instead of throwing" in {
+      val controller = new Controller()
+      controller.currentState = FailingState(RoundError.NoCardsSelected)
+
+      controller.handle(Action.Select(List(0)))
+
+      controller.lastError shouldBe Some(RoundError.NoCardsSelected)
+    }
+
+    "rethrow unexpected failures that are not a RoundError" in {
+      val controller = new Controller()
+      val boom = new RuntimeException("unexpected failure")
+      controller.currentState = FailingState(boom)
+
+      val thrown = intercept[RuntimeException] {
+        controller.handle(Action.Select(List(0)))
+      }
+      thrown shouldBe boom
     }
   }
 }
