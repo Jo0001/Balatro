@@ -4,8 +4,8 @@ import de.htwg.se.balatro.model.Game
 import de.htwg.se.balatro.util.*
 import scala.util.{Success, Failure}
 
-class Controller(startGame: Game = Game.start()) extends Observable {
-  var currentGame: Game = startGame
+class Controller(startGame: Game = Game.start(), gameStorage: FileGameStorageStrategy = new FileGameStorageStrategy()) extends Observable {
+  var currentGame: Game = gameStorage.load().getOrElse(startGame)
   var currentState: GameState = PlayingState()
   var lastError: Option[RoundError] = None //todo use in TUI
   private val undoManager = UndoManager()
@@ -43,6 +43,7 @@ class Controller(startGame: Game = Game.start()) extends Observable {
         undoManager.doStep(new HandleCommand(this, action))
     }
     notifyObservers()
+    gameStorage.save(currentGame)
   }
 
   private def applyDirectly(action: Action): Unit = {
