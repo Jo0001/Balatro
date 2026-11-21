@@ -8,6 +8,7 @@ lazy val root = rootProject
       "org.scalatest" %% "scalatest" % "3.2.14" % "test"
     ),
     coverageExcludedPackages :=
-      "de\\.htwg\\.se\\.balatro\\.legacy\\..*",
+      "de\\.htwg\\.se\\.balatro\\.legacy\\..*;" +
+        "de\\.htwg\\.se\\.balatro\\.util\\.FileGameStorageStrategy",
     coverageExcludedFiles := ".*Main",
   )

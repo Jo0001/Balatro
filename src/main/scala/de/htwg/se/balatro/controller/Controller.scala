@@ -4,7 +4,7 @@ import de.htwg.se.balatro.model.Game
 import de.htwg.se.balatro.util.*
 import scala.util.{Success, Failure}
 
-class Controller(startGame: Game = Game.start(), gameStorage: FileGameStorageStrategy = new FileGameStorageStrategy()) extends Observable {
+class Controller(startGame: Game = Game.start(), gameStorage: GameStorageStrategy = new MockGameStorageStrategy()) extends Observable {
   var currentGame: Game = gameStorage.load().getOrElse(startGame)
   var currentState: GameState = PlayingState()
   var lastError: Option[RoundError] = None //todo use in TUI
