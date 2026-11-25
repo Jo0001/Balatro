@@ -7,7 +7,7 @@ import scala.util.{Success, Failure}
 class Controller(startGame: Game = Game.start(), gameStorage: GameStorageStrategy = new MockGameStorageStrategy()) extends Observable {
   var currentGame: Game = gameStorage.load().getOrElse(startGame)
   var currentState: GameState = PlayingState()
-  var lastError: Option[RoundError] = None //todo use in TUI
+  var lastError: Option[RoundError] = None
   private val undoManager = UndoManager()
 
   def gameSnapshot: GameSnapshot = GameSnapshot(
@@ -25,7 +25,8 @@ class Controller(startGame: Game = Game.start(), gameStorage: GameStorageStrateg
     chipsTotal = currentGame.currentRound.currentHand().chipsTotal,
     handName = currentGame.currentRound.currentHand().hand.toString,
     handcards = createHandCards(),
-    phase = currentState.phase
+    phase = currentState.phase,
+    lastError = lastError
   )
 
   def handle(action: Action): Unit = {

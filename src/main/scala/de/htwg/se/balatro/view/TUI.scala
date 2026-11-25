@@ -20,7 +20,8 @@ class TUI(controller: Controller) extends Observer {
         val statusbar = createStatusbar(gameSnapshot.score, gameSnapshot.goal, gameSnapshot.reward, gameSnapshot.ante, gameSnapshot.maxAnte, gameSnapshot.roundCounter)
         val remaining = createRemaining(gameSnapshot.discards, gameSnapshot.hands)
         val livescore = createLiveScore(gameSnapshot.chips, gameSnapshot.multiplier, gameSnapshot.handName)
-        s"${createTitle(gameSnapshot.blindName, statusbar.length, Console.BLUE_B)}\n$statusbar\n${useSpace(statusbar.length, List(livescore, remaining))}\n\n${createHandView(statusbar.length, gameSnapshot.handcards)}\n\n${createMenu()}"
+        val error = gameSnapshot.lastError.map(err => "\n" + err.getMessage.toUpperCase).getOrElse("")
+        s"${createTitle(gameSnapshot.blindName, statusbar.length, Console.BLUE_B)}\n$statusbar\n${useSpace(statusbar.length, List(livescore, remaining))}\n\n${createHandView(statusbar.length, gameSnapshot.handcards)}\n\n${createMenu()}$error"
       }
       case RoundWon => createRoundWonMessage()
       case GameOver => createGameOverMessage()
