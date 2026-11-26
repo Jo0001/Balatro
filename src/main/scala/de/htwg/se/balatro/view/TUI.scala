@@ -3,7 +3,7 @@ package de.htwg.se.balatro.view
 import de.htwg.se.balatro.controller.Controller
 import de.htwg.se.balatro.util.CardColor.*
 import de.htwg.se.balatro.util.CardSymbol.*
-import de.htwg.se.balatro.util.Action.UnknownCommand
+import de.htwg.se.balatro.util.Result.*
 import de.htwg.se.balatro.util.*
 import de.htwg.se.balatro.util.Phase.*
 
@@ -123,10 +123,10 @@ class TUI(controller: Controller) extends Observer {
   final def runloop(): Unit =
     val line = readLine()
     parser.parse(line) match {
-      case UnknownCommand =>
+      case Err(message) =>
         println(createCommandErrorMessage(line))
         print(">")
-      case action =>
+      case Ok(action) =>
         controller.handle(action)
     }
     runloop()

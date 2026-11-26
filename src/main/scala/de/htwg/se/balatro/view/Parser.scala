@@ -1,7 +1,8 @@
 package de.htwg.se.balatro.view
 
 import de.htwg.se.balatro.util.Action.*
-import de.htwg.se.balatro.util.Action
+import de.htwg.se.balatro.util.{Action, Result}
+
 
 class Parser {
   val h7 = KeywordHandler("redo", Redo, EndOfChain())
@@ -13,7 +14,7 @@ class Parser {
   val h1 = SelectHandler(h2)
   val chain = h1
 
-  def parse(input: String): Action = {
+  def parse(input: String): Result[Action] = {
     val cleanInput = input.toLowerCase.strip().replaceAll("\\s+", " ") //remove all unnecessary whitespaces
     chain.handle(cleanInput)
   }
