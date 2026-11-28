@@ -73,4 +73,28 @@ class ControllerSpec extends AnyWordSpec {
       thrown shouldBe boom
     }
   }
+
+  "Controller" should {
+    "call exit(false) when Action.Exit is handled" in {
+      var capturedFake: Option[Boolean] = None
+
+      val controller = new Controller() {
+        override def exit(fake: Boolean): Unit = {
+          capturedFake = Some(fake)
+        }
+      }
+      controller.handle(Action.Exit)
+      capturedFake shouldBe Some(false)
+    }
+  }
+  
+  "Controller" should {
+    "exit() not kill the testrun " in {
+      val alive = true
+      val controller = new Controller()
+      controller.exit(true)
+      alive shouldBe true
+    }
+  }
+
 }

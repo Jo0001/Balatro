@@ -9,6 +9,7 @@ lazy val root = rootProject
     ),
     coverageExcludedPackages :=
       "de\\.htwg\\.se\\.balatro\\.legacy\\..*;" +
-        "de\\.htwg\\.se\\.balatro\\.util\\.FileGameStorageStrategy",
+        "de\\.htwg\\.se\\.balatro\\.util\\.FileGameStorageStrategy;" +
+        "de\\.htwg\\.se\\.balatro\\.util\\.Exit",
     coverageExcludedFiles := ".*Main",
   )

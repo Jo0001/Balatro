@@ -59,6 +59,12 @@ class ParserSpec extends AnyWordSpec {
     }
   }
   "Parser" should {
+    "parse the exit command (no matter of case sensitivity)" in {
+      val parser = Parser()
+      parser.parse("exiT") should be(Ok(Exit))
+    }
+  }
+  "Parser" should {
     "detect invalid/malformed commands" in {
       val parser = Parser()
       val unknown = (input: String) => Err(s"Unknown or misspelled command '$input'")

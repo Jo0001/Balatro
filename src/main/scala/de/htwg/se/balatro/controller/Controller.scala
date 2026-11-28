@@ -40,11 +40,12 @@ class Controller(startGame: Game = Game.start(), gameStorage: GameStorageStrateg
       case Action.Restart =>
         applyDirectly(action)
         undoManager.clear()
+      case Action.Exit =>
+        exit(false)
       case _ =>
         undoManager.doStep(new HandleCommand(this, action))
     }
     notifyObservers()
-    gameStorage.save(currentGame)
   }
 
   private def applyDirectly(action: Action): Unit = {
@@ -64,6 +65,11 @@ class Controller(startGame: Game = Game.start(), gameStorage: GameStorageStrateg
     currentGame.currentRound.handcards.zipWithIndex.map { (card, index) =>
       CardSnapshot(selected = currentGame.currentRound.selected.contains(index), rank = card.rank.toString, symbol = card.symbol, color = card.color)
     }
+  }
+
+  def exit(fake: Boolean): Unit = {
+    gameStorage.save(currentGame)
+    Exit.exit(fake)
   }
 
 }

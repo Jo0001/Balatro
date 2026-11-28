@@ -8,4 +8,5 @@ enum Action:
   case Restart
   case Undo
   case Redo
+  case Exit
   case UnknownCommand
